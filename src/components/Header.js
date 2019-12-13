@@ -8,10 +8,7 @@ const Header = () => (
       Home -{" "}
     </NavLink>
     <NavLink to="/create" activeClassName="is-active">
-      Create Recipe -{" "}
-    </NavLink>
-    <NavLink to="/help" activeClassName="is-active">
-      Help -{" "}
+      Create Recipe
     </NavLink>
   </header>
 );
