@@ -1,5 +1,5 @@
 import uuid from "uuid";
-import db from "../firebase/firebase";
+//import db from "../firebase/firebase";
 
 /* WHITOUT DB */
 /**
@@ -52,9 +52,7 @@ export const startAddRecipe = (recipeData = {}) => {
 
 export const removeRecipe = ({ id } = {}) => ({
   type: "REMOVE_RECIPE",
-  recipe: {
-    id
-  }
+  id
 });
 
 // edit recipe

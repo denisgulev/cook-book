@@ -7,7 +7,7 @@ const recipesReducer = (state = recipesReducerDefaultState, action) => {
     case "ADD_RECIPE":
       return [...state, action.recipe];
     case "REMOVE_RECIPE":
-      return state.filter(({ id }) => id !== action.recipe.id);
+      return state.filter(({ id }) => id !== action.id);
     case "EDIT_RECIPE":
       return state.map(recipe => {
         if (recipe.id === action.id) {
