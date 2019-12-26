@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render RecipeList with empty message 1`] = `
+<div>
+  <p>
+    No Recipes
+  </p>
+</div>
+`;
+
+exports[`should render RecipeList with recipes 1`] = `
+<div>
+  <RecipeListItem
+    createdAt={0}
+    description="How to do in selector test"
+    id="1"
+    key="1"
+    note=""
+    title="Ricetta in selector test"
+  />
+  <RecipeListItem
+    createdAt={-345600000}
+    description="RENT"
+    id="2"
+    key="2"
+    note=""
+    title="Ricetta in selector test"
+  />
+  <RecipeListItem
+    createdAt={345600000}
+    description="PC"
+    id="3"
+    key="3"
+    note=""
+    title="Prova"
+  />
+</div>
+`;

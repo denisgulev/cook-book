@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render RecipeListItem correctly 1`] = `
+<div>
+  <Link
+    to="/edit/1"
+  >
+    <h3>
+      Ricetta in selector test
+    </h3>
+  </Link>
+  <p>
+    How to do in selector test
+    ---
+    January 1st, 1970
+  </p>
+</div>
+`;

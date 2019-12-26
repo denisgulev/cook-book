@@ -3,12 +3,15 @@ import { connect } from "react-redux";
 import RecipeListItem from "./RecipeListItem";
 import getVisibleRecipes from "../selectors/recipes";
 
-const RecipeList = props => (
+export const RecipeList = props => (
   <div>
-    <h1>Recipe List</h1>
-    {props.recipes.map(recipe => {
-      return <RecipeListItem key={recipe.id} {...recipe} />;
-    })}
+    {props.recipes.length === 0 ? (
+      <p>No Recipes</p>
+    ) : (
+      props.recipes.map(recipe => {
+        return <RecipeListItem key={recipe.id} {...recipe} />;
+      })
+    )}
   </div>
 );
 

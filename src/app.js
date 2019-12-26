@@ -6,6 +6,7 @@ import configureStore from "./store/configureStore";
 import "normalize.css/normalize.css";
 import "./styles/styles.scss";
 import "./firebase/firebase";
+import "react-dates/lib/css/_datepicker.css";
 
 const store = configureStore();
 
