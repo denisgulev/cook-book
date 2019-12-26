@@ -16,6 +16,7 @@ const getVisibleRecipes = (recipes, { text, sortBy, startDate, endDate }) => {
       return startDateMatch && endDateMatch && textMatch;
     })
     .sort((a, b) => {
+      // descendant order
       if (sortBy === "date") return a.createdAt < b.createdAt ? 1 : -1;
       else if (sortBy === "amount") return a.amount < b.amount ? 1 : -1;
     });

@@ -1,6 +1,6 @@
 import { addRecipe, editRecipe, removeRecipe } from "../../actions/recipes";
 
-test("should setup remove recipe action object", () => {
+test("should setup remove recipe actions object", () => {
   const action = removeRecipe({ id: "123abc" });
 
   expect(action).toEqual({
@@ -9,14 +9,31 @@ test("should setup remove recipe action object", () => {
   });
 });
 
-test("should update recipe action object", () => {
-  const action = editRecipe("321cba", { note: "New note value" });
+test("should setup edit recipe object", () => {
+  const action = editRecipe("123bca", { note: "New val from test" });
 
   expect(action).toEqual({
     type: "EDIT_RECIPE",
-    id: "321cba",
+    id: "123bca",
     updates: {
-      note: "New note value"
+      note: "New val from test"
+    }
+  });
+});
+
+test("should setup add recipe object", () => {
+  const recipeData = {
+    title: "Prima ricetta test",
+    description: "How to do test",
+    note: "",
+    createdAt: 1000
+  };
+
+  const action = addRecipe(recipeData);
+  expect(action).toEqual({
+    type: "ADD_RECIPE",
+    recipe: {
+      ...recipeData
     }
   });
 });
