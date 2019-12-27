@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import RecipeForm from "./RecipeForm";
-import { editRecipe, removeRecipe } from "../actions/recipes";
+import { editRecipe, startRemoveRecipe } from "../actions/recipes";
 
 export class EditRecipePage extends React.Component {
   onSubmit = recipe => {
@@ -10,7 +10,7 @@ export class EditRecipePage extends React.Component {
   };
 
   onRemove = () => {
-    this.props.removeRecipe({ id: this.props.recipe.id });
+    this.props.startRemoveRecipe({ id: this.props.recipe.id });
     this.props.history.push("/");
   };
 
@@ -29,7 +29,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
-  removeRecipe: data => dispatch(removeRecipe(data)),
+  startRemoveRecipe: data => dispatch(startRemoveRecipe(data)),
   editRecipe: (id, recipe) => dispatch(editRecipe(id, recipe))
 });
 

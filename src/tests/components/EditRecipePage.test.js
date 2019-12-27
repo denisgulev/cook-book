@@ -3,16 +3,16 @@ import { shallow } from "enzyme";
 import recipes from "../fixtures/recipes";
 import { EditRecipePage } from "../../components/EditRecipePage";
 
-let editRecipe, removeRecipe, history, wrapper;
+let editRecipe, startRemoveRecipe, history, wrapper;
 
 beforeEach(() => {
   editRecipe = jest.fn();
-  removeRecipe = jest.fn();
+  startRemoveRecipe = jest.fn();
   history = { push: jest.fn() };
   wrapper = shallow(
     <EditRecipePage
       editRecipe={editRecipe}
-      removeRecipe={removeRecipe}
+      startRemoveRecipe={startRemoveRecipe}
       history={history}
       recipe={recipes[1]}
     />
@@ -29,8 +29,8 @@ test("should handle editRecipe", () => {
   expect(editRecipe).toHaveBeenLastCalledWith(recipes[1].id, recipes[1]);
 });
 
-test("should handle removeRecipe", () => {
+test("should handle startRemoveRecipe", () => {
   wrapper.find("button").simulate("click");
   expect(history.push).toHaveBeenLastCalledWith("/");
-  expect(removeRecipe).toHaveBeenLastCalledWith({ id: recipes[1].id });
+  expect(startRemoveRecipe).toHaveBeenLastCalledWith({ id: recipes[1].id });
 });

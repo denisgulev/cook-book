@@ -57,6 +57,21 @@ export const removeRecipe = ({ id } = {}) => ({
   id
 });
 
+export const startRemoveRecipe = ({ id } = {}) => {
+  return dispatch => {
+    // read data once
+    return db
+      .ref(`recipes/${id}`)
+      .remove()
+      .then(() => {
+        dispatch(removeRecipe({ id }));
+      })
+      .catch(e => {
+        console.log("Error!", e);
+      });
+  };
+};
+
 // edit recipe
 
 export const editRecipe = (id, updates) => ({

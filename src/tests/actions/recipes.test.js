@@ -6,7 +6,8 @@ import {
   editRecipe,
   removeRecipe,
   setRecipes,
-  startSetRecipes
+  startSetRecipes,
+  startRemoveRecipe
 } from "../../actions/recipes";
 import recipes from "../fixtures/recipes";
 import db from "../../firebase/firebase";
@@ -33,6 +34,25 @@ test("should setup remove recipe actions object", () => {
     type: "REMOVE_RECIPE",
     id: "123abc"
   });
+});
+
+test("should remove expense from firebase", done => {
+  const store = createMockStore({});
+  const id = recipes[0].id;
+  store
+    .dispatch(startRemoveRecipe({ id }))
+    .then(() => {
+      const actions = store.getActions();
+      expect(actions[0]).toEqual({
+        type: "REMOVE_RECIPE",
+        id
+      });
+      return db.ref(`recipes/${id}`).once("value");
+    })
+    .then(snapshot => {
+      expect(snapshot.val()).toBeFalsy();
+      done();
+    });
 });
 
 test("should setup edit recipe object", () => {
