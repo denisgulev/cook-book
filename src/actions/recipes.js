@@ -1,5 +1,6 @@
 import uuid from "uuid";
 import db from "../firebase/firebase";
+import "firebase/database";
 
 /* WHITOUT DB */
 /**
@@ -63,3 +64,34 @@ export const editRecipe = (id, updates) => ({
   id,
   updates
 });
+
+// set recipes
+export const setRecipes = recipes => ({
+  type: "SET_RECIPES",
+  recipes
+});
+
+// async func that will eventually dispatch 'setRecipes'
+export const startSetRecipes = () => {
+  const recipesFromDB = [];
+  return dispatch => {
+    // read data once
+    return db
+      .ref("recipes")
+      .once("value")
+      .then(snapshot => {
+        // parse data
+        snapshot.forEach(child => {
+          recipesFromDB.push({
+            id: child.key,
+            ...child.val()
+          });
+        });
+
+        dispatch(setRecipes(recipesFromDB));
+      })
+      .catch(e => {
+        console.log("Error!", e);
+      });
+  };
+};

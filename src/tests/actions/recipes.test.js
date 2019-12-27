@@ -4,12 +4,27 @@ import {
   startAddRecipe,
   addRecipe,
   editRecipe,
-  removeRecipe
+  removeRecipe,
+  setRecipes,
+  startSetRecipes
 } from "../../actions/recipes";
 import recipes from "../fixtures/recipes";
 import db from "../../firebase/firebase";
 
 const createMockStore = configureMockStore([thunk]);
+
+// done is used to allow population before starting tests defined below
+beforeEach(done => {
+  const recipeData = {};
+  recipes.forEach(({ id, title, description, note, createdAt }) => {
+    recipeData[id] = { title, description, note, createdAt };
+  });
+  db.ref("recipes")
+    .set(recipeData)
+    .then(() => {
+      done();
+    });
+});
 
 test("should setup remove recipe actions object", () => {
   const action = removeRecipe({ id: "123abc" });
@@ -90,4 +105,24 @@ test("should add recipe with defaults to database and store", done => {
       expect(snapshot.val()).toEqual(recipeDataDefault);
       done();
     });
+});
+
+test("should setup set recipes object with data", () => {
+  const action = setRecipes(recipes);
+  expect(action).toEqual({
+    type: "SET_RECIPES",
+    recipes
+  });
+});
+
+test("should fetch recipes from firebase", done => {
+  const store = createMockStore({});
+  store.dispatch(startSetRecipes()).then(() => {
+    const actions = store.getActions();
+    expect(actions[0]).toEqual({
+      type: "SET_RECIPES",
+      recipes
+    });
+    done();
+  });
 });

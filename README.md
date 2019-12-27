@@ -38,6 +38,7 @@ https://ricettario-v1.herokuapp.com/
 - use as 'cross-env KEY=value' in package.json scripts; ex NODE_ENV=test
 - 'dotenv' -> loads environments variables from .env files
 - need to require('dotenv') in setupTests.js
+- add env properties in webpack.config using "webpack.DefinePlugin({})"
 
 # Heroku ENV variables set
 

@@ -73,3 +73,13 @@ test("should not edit a recipe if id is not found", () => {
 
   expect(state).toEqual(recipes);
 });
+
+test("should set recipes", () => {
+  const action = {
+    type: "SET_RECIPES",
+    recipes: [recipes[2]]
+  };
+  const state = recipesReducer(recipes, action);
+
+  expect(state).toEqual([recipes[2]]);
+});
