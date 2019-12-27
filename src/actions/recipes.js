@@ -80,6 +80,20 @@ export const editRecipe = (id, updates) => ({
   updates
 });
 
+export const startEditRecipe = (id, updates) => {
+  return dispatch => {
+    return db
+      .ref(`recipes/${id}`)
+      .update(updates)
+      .then(() => {
+        dispatch(editRecipe(id, updates));
+      })
+      .catch(e => {
+        console.log("Error!", e);
+      });
+  };
+};
+
 // set recipes
 export const setRecipes = recipes => ({
   type: "SET_RECIPES",

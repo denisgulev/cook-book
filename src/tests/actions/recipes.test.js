@@ -7,7 +7,8 @@ import {
   removeRecipe,
   setRecipes,
   startSetRecipes,
-  startRemoveRecipe
+  startRemoveRecipe,
+  startEditRecipe
 } from "../../actions/recipes";
 import recipes from "../fixtures/recipes";
 import db from "../../firebase/firebase";
@@ -65,6 +66,31 @@ test("should setup edit recipe object", () => {
       note: "New val from test"
     }
   });
+});
+
+test("should edit recipe from firebase", done => {
+  const store = createMockStore({});
+  const id = recipes[0].id;
+  const updates = {
+    title: "DONE FOR START_EDIT_RECIPE",
+    note: "27-12-2019"
+  };
+
+  store
+    .dispatch(startEditRecipe(id, updates))
+    .then(() => {
+      const actions = store.getActions();
+      expect(actions[0]).toEqual({
+        type: "EDIT_RECIPE",
+        id,
+        updates
+      });
+      return db.ref(`recipes/${id}`).once("value");
+    })
+    .then(snapshot => {
+      expect(snapshot.val().title).toBe(updates.title);
+      done();
+    });
 });
 
 test("should setup add recipe object", () => {

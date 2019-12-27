@@ -3,15 +3,15 @@ import { shallow } from "enzyme";
 import recipes from "../fixtures/recipes";
 import { EditRecipePage } from "../../components/EditRecipePage";
 
-let editRecipe, startRemoveRecipe, history, wrapper;
+let startEditRecipe, startRemoveRecipe, history, wrapper;
 
 beforeEach(() => {
-  editRecipe = jest.fn();
+  startEditRecipe = jest.fn();
   startRemoveRecipe = jest.fn();
   history = { push: jest.fn() };
   wrapper = shallow(
     <EditRecipePage
-      editRecipe={editRecipe}
+      startEditRecipe={startEditRecipe}
       startRemoveRecipe={startRemoveRecipe}
       history={history}
       recipe={recipes[1]}
@@ -26,7 +26,7 @@ test("should render EditRecipePage correctly", () => {
 test("should handle editRecipe", () => {
   wrapper.find("RecipeForm").prop("onSubmit")(recipes[1]);
   expect(history.push).toHaveBeenLastCalledWith("/");
-  expect(editRecipe).toHaveBeenLastCalledWith(recipes[1].id, recipes[1]);
+  expect(startEditRecipe).toHaveBeenLastCalledWith(recipes[1].id, recipes[1]);
 });
 
 test("should handle startRemoveRecipe", () => {
