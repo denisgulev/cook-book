@@ -1,4 +1,15 @@
-import { addRecipe, editRecipe, removeRecipe } from "../../actions/recipes";
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
+import {
+  startAddRecipe,
+  addRecipe,
+  editRecipe,
+  removeRecipe
+} from "../../actions/recipes";
+import recipes from "../fixtures/recipes";
+import database from "../../firebase/firebase";
+
+const createMockStore = configureMockStore([thunk]);
 
 test("should setup remove recipe actions object", () => {
   const action = removeRecipe({ id: "123abc" });
@@ -22,18 +33,37 @@ test("should setup edit recipe object", () => {
 });
 
 test("should setup add recipe object", () => {
+  const action = addRecipe(recipes[2]);
+  expect(action).toEqual({
+    type: "ADD_RECIPE",
+    recipe: recipes[2]
+  });
+});
+
+test("should add recipe to database and store", done => {
+  const store = createMockStore({});
   const recipeData = {
-    title: "Prima ricetta test",
-    description: "How to do test",
-    note: "",
+    description: "Mouse",
+    title: "Mouse recipe",
+    note: "this one is better",
     createdAt: 1000
   };
 
-  const action = addRecipe(recipeData);
-  expect(action).toEqual({
-    type: "ADD_RECIPE",
-    recipe: {
-      ...recipeData
-    }
-  });
+  store
+    .dispatch(startAddRecipe(recipeData))
+    .then(() => {
+      const actions = store.getActions();
+      expect(actions[0]).toEqual({
+        type: "ADD_RECIPE",
+        recipe: { id: expect.any(String), ...recipeData }
+      });
+
+      return database.ref(`recipes/${actions[0].recipe.id}`).once("value");
+    })
+    .then(snapshot => {
+      expect(snapshot.val()).toEqual(recipeData);
+      done();
+    });
 });
+
+test("should add recipe with defaults to database and store", () => {});

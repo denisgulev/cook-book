@@ -1,5 +1,5 @@
 import uuid from "uuid";
-//import db from "../firebase/firebase";
+import db from "../firebase/firebase";
 
 /* WHITOUT DB */
 /**
@@ -35,7 +35,8 @@ export const startAddRecipe = (recipeData = {}) => {
 
     const recipe = { title, description, note, createdAt };
 
-    db.ref("recipes")
+    return db
+      .ref("recipes")
       .push(recipe)
       .then(ref => {
         dispatch(
