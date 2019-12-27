@@ -7,7 +7,7 @@ import {
   removeRecipe
 } from "../../actions/recipes";
 import recipes from "../fixtures/recipes";
-import database from "../../firebase/firebase";
+import db from "../../firebase/firebase";
 
 const createMockStore = configureMockStore([thunk]);
 
@@ -58,7 +58,7 @@ test("should add recipe to database and store", done => {
         recipe: { id: expect.any(String), ...recipeData }
       });
 
-      return database.ref(`recipes/${actions[0].recipe.id}`).once("value");
+      return db.ref(`recipes/${actions[0].recipe.id}`).once("value");
     })
     .then(snapshot => {
       expect(snapshot.val()).toEqual(recipeData);
@@ -66,4 +66,28 @@ test("should add recipe to database and store", done => {
     });
 });
 
-test("should add recipe with defaults to database and store", () => {});
+test("should add recipe with defaults to database and store", done => {
+  const store = createMockStore({});
+  const recipeDataDefault = {
+    description: "",
+    title: "",
+    note: "",
+    createdAt: 1000
+  };
+
+  store
+    .dispatch(startAddRecipe({}))
+    .then(() => {
+      const actions = store.getActions();
+      expect(actions[0]).toEqual({
+        type: "ADD_RECIPE",
+        recipe: { id: expect.any(String), ...recipeDataDefault }
+      });
+
+      return db.ref(`recipes/${actions[0].recipe.id}`).once("value");
+    })
+    .then(snapshot => {
+      expect(snapshot.val()).toEqual(recipeDataDefault);
+      done();
+    });
+});

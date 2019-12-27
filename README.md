@@ -32,6 +32,13 @@ https://ricettario-v1.herokuapp.com/
       	4) to shallow render only relevant elements to the ui, add this line to 'jest.config.json':
       				"snapshotSerializers": ["enzyme-to-json/serializer"]
 
+# Cross OS environments
+
+- 'npm install --save-dev cross-env'
+- use as 'cross-env KEY=value' in package.json scripts; ex NODE_ENV=test
+- 'dotenv' -> loads environments variables from .env files
+- need to require('dotenv') in setupTests.js
+
 # Heroku ENV variables set
 
-'heroku config: set KEY=value'
+- 'heroku config:set KEY=value'

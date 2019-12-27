@@ -30,7 +30,7 @@ export const startAddRecipe = (recipeData = {}) => {
       title = "",
       description = "",
       note = "",
-      createdAt = 0
+      createdAt = 1000
     } = recipeData;
 
     const recipe = { title, description, note, createdAt };

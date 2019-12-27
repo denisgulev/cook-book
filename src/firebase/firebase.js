@@ -1,5 +1,6 @@
 // connection to the db
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
+import "firebase/database";
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
