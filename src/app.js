@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { startSetRecipes } from "../src/actions/recipes";
 import { login, logout } from "./actions/auth";
 import AppRouter, { history } from "./routers/AppRouter";
+import LoadingPage from "./components/LoadingPage";
 import configureStore from "./store/configureStore";
 import "normalize.css/normalize.css";
 import "./styles/styles.scss";
@@ -27,7 +28,7 @@ const renderApp = () => {
   }
 };
 
-ReactDOM.render(<p>Loading...</p>, document.getElementById("app"));
+ReactDOM.render(<LoadingPage />, document.getElementById("app"));
 
 firebase.auth().onAuthStateChanged(user => {
   if (user) {

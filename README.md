@@ -51,3 +51,8 @@ Store user id in redux store for route autorization.
 # Redirection on login and logout
 
 Need to create a local history. Switch BrowserRouter with Router and pass 'history' as parameter. 'history' is created with 'createHistory' imported from 'history/createBrowserHistory'.
+
+# Security
+
+Server side validation - nothing that's not valid gets saved
+Client side validation - readable useful responses quickly

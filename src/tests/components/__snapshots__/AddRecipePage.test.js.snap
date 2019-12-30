@@ -2,11 +2,25 @@
 
 exports[`should render AddRecipePage correctly 1`] = `
 <div>
-  <h1>
-    Add Recipe
-  </h1>
-  <RecipeForm
-    onSubmit={[Function]}
-  />
+  <div
+    className="page-header"
+  >
+    <div
+      className="content-container"
+    >
+      <h1
+        className="page-header__title"
+      >
+        Add Recipe
+      </h1>
+    </div>
+  </div>
+  <div
+    className="content-container"
+  >
+    <RecipeForm
+      onSubmit={[Function]}
+    />
+  </div>
 </div>
 `;

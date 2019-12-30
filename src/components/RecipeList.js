@@ -4,14 +4,22 @@ import RecipeListItem from "./RecipeListItem";
 import getVisibleRecipes from "../selectors/recipes";
 
 export const RecipeList = props => (
-  <div>
-    {props.recipes.length === 0 ? (
-      <p>No Recipes</p>
-    ) : (
-      props.recipes.map(recipe => {
-        return <RecipeListItem key={recipe.id} {...recipe} />;
-      })
-    )}
+  <div className="content-container">
+    <div className="list-header">
+      <div className="show-for-desktop">Recipe</div>
+      <div className="show-for-mobile">Recipes</div>
+    </div>
+    <div className="list-body">
+      {props.recipes.length === 0 ? (
+        <div className="list-item list-item--message">
+          <span>No recipes</span>
+        </div>
+      ) : (
+        props.recipes.map(recipe => {
+          return <RecipeListItem key={recipe.id} {...recipe} />;
+        })
+      )}
+    </div>
   </div>
 );
 
