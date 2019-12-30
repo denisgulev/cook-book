@@ -1,6 +1,7 @@
 // connection to the db
 import * as firebase from "firebase/app";
 import "firebase/database";
+import "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -16,8 +17,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const db = firebase.database();
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
-export { firebase, db as default };
+export { firebase, googleAuthProvider, db as default };
 
 /* // child_removed
 db.ref("recipes").on("child_removed", snapshot => {

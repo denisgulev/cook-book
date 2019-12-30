@@ -43,3 +43,11 @@ https://ricettario-v1.herokuapp.com/
 # Heroku ENV variables set
 
 - 'heroku config:set KEY=value'
+
+# Firebase authentication
+
+Store user id in redux store for route autorization.
+
+# Redirection on login and logout
+
+Need to create a local history. Switch BrowserRouter with Router and pass 'history' as parameter. 'history' is created with 'createHistory' imported from 'history/createBrowserHistory'.
