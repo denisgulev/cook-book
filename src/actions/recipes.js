@@ -26,7 +26,8 @@ export const addRecipe = recipe => ({
 });
 
 export const startAddRecipe = (recipeData = {}) => {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
     const {
       title = "",
       description = "",
@@ -37,7 +38,7 @@ export const startAddRecipe = (recipeData = {}) => {
     const recipe = { title, description, note, createdAt };
 
     return db
-      .ref("recipes")
+      .ref(`users/${uid}/recipes`)
       .push(recipe)
       .then(ref => {
         dispatch(
@@ -58,10 +59,11 @@ export const removeRecipe = ({ id } = {}) => ({
 });
 
 export const startRemoveRecipe = ({ id } = {}) => {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
     // read data once
     return db
-      .ref(`recipes/${id}`)
+      .ref(`users/${uid}/recipes/${id}`)
       .remove()
       .then(() => {
         dispatch(removeRecipe({ id }));
@@ -81,9 +83,10 @@ export const editRecipe = (id, updates) => ({
 });
 
 export const startEditRecipe = (id, updates) => {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
     return db
-      .ref(`recipes/${id}`)
+      .ref(`users/${uid}/recipes/${id}`)
       .update(updates)
       .then(() => {
         dispatch(editRecipe(id, updates));
@@ -103,10 +106,11 @@ export const setRecipes = recipes => ({
 // async func that will eventually dispatch 'setRecipes'
 export const startSetRecipes = () => {
   const recipesFromDB = [];
-  return dispatch => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
     // read data once
     return db
-      .ref("recipes")
+      .ref(`users/${uid}/recipes`)
       .once("value")
       .then(snapshot => {
         // parse data
