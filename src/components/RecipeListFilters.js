@@ -52,7 +52,6 @@ export class RecipeListFilters extends React.Component {
               onChange={this.onSortChange}
             >
               <option value="date">Date</option>
-              <option value="amount">Amount</option>
             </select>
           </div>
           <div className="input-group__item">
