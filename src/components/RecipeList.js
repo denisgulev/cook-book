@@ -5,10 +5,6 @@ import getVisibleRecipes from "../selectors/recipes";
 
 export const RecipeList = props => (
   <div className="content-container">
-    <div className="list-header">
-      <div className="show-for-desktop">Recipe</div>
-      <div className="show-for-mobile">Recipes</div>
-    </div>
     <div className="list-body">
       {props.recipes.length === 0 ? (
         <div className="list-item list-item--message">

@@ -3,15 +3,17 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 
 const RecipeListItem = ({ id, title, description, createdAt }) => (
-  <Link className="list-item" to={`/edit/${id}`}>
-    <div>
+  <div className="list-item">
+    <div className="list-item__image">
+      <Link to={`/edit/${id}`}>
+        <img src="/images/recipe.jpg" alt="Recipe Image" />
+      </Link>
+    </div>
+    <div className="list-item__content">
       <h3 className="list-item__title">{title}</h3>
       <span className="list-item__subtitle">{description}</span>
     </div>
-    <h3 className="list-item__data">
-      {moment(createdAt).format("MMMM Do, YYYY")}
-    </h3>
-  </Link>
+  </div>
 );
 
 export default RecipeListItem;

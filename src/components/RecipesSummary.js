@@ -8,13 +8,15 @@ const RecipesSummary = ({ visibleRecipesCount, totalRecipesCount }) => {
 
   return (
     <div className="page-header">
-      <div className="content-container">
-        <h1 className="page-header__title">
-          Viewing <span>{visibleRecipesCount}</span> {recipeWord}.
-        </h1>
-        <h4 className="page-header__subtitle">
-          Total number of {recipeWord}: <span>{totalRecipesCount}</span>
-        </h4>
+      <div className="content-container page-header__content">
+        <div className="page-header__info">
+          <h1 className="page-header__title">
+            Viewing <span>{visibleRecipesCount}</span> {recipeWord}.
+          </h1>
+          <h4 className="page-header__subtitle">
+            Total number of {recipeWord}: <span>{totalRecipesCount}</span>
+          </h4>
+        </div>
         <div className="page-header__actions">
           <Link className="button" to="/create">
             Add Recipe

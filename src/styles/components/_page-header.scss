@@ -4,6 +4,12 @@
   padding: $l-size 0;
 }
 
+.page-header__content {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
 .page-header__actions {
   margin-top: $m-size;
 }
