@@ -12,6 +12,9 @@ const RecipeListItem = ({ id, title, description, createdAt }) => (
     <div className="list-item__content">
       <h3 className="list-item__title">{title}</h3>
       <span className="list-item__subtitle">{description}</span>
+      <Link to={`/recipe/${id}`}>
+        <button className="button">VIEW</button>
+      </Link>
     </div>
   </div>
 );

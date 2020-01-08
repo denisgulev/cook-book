@@ -36,7 +36,7 @@ export class EditRecipePage extends React.Component {
             <h1 className="page-header__title">Edit Recipe</h1>
           </div>
         </div>
-        <div className="content-container">
+        <div className="content-container recipe">
           <RecipeForm recipe={this.props.recipe} onSubmit={this.onSubmit} />
           <button
             className="button button--secondary"
