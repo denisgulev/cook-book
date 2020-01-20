@@ -1,22 +1,56 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import ConfirmationModal from "./ConfirmationModal";
+import { startRemoveRecipe } from "../actions/recipes";
 
 export class Recipe extends React.Component {
+  state = {
+    isRemoveRequested: undefined
+  };
+
+  onRemove = () => {
+    this.setState(() => ({ isRemoveRequested: undefined }));
+    this.props.startRemoveRecipe({ id: this.props.recipe.id });
+    this.props.history.push("/dashboard");
+  };
+
+  cancelRemove = () => {
+    this.setState(() => ({ isRemoveRequested: undefined }));
+  };
+
+  handleRemoveRequested = () => {
+    this.setState(() => ({ isRemoveRequested: true }));
+  };
+
   render() {
     return (
       <div>
         <div className="page-header">
           <div className="content-container page-header__content">
             <h1 className="page-header__title">Viewing Recipe</h1>
-            <Link className="button" to={`/edit/${this.props.recipe.id}`}>
-              Edit Recipe
-            </Link>
+            {this.props.isAuthenticated ? (
+              <>
+                <button className="button">
+                  <Link to={`/edit/${this.props.recipe.id}`}>Edit Recipe</Link>
+                </button>
+                <button
+                  className="button button--secondary"
+                  onClick={this.handleRemoveRequested}
+                >
+                  Remove Recipe
+                </button>
+              </>
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <div className="content-container recipe">
           <div className="recipe__content">
-            <div className="recipe__image">Recipe Image</div>
+            <div className="recipe__image">
+              <img src={this.props.recipe.imageUrl} />
+            </div>
             <div className="recipe__ingredients">
               <ul>
                 <li>Coffee</li>
@@ -26,7 +60,7 @@ export class Recipe extends React.Component {
             </div>
           </div>
           <div className="recipe__description">
-            <h1>title</h1>
+            <h1>{this.props.recipe.title}</h1>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eget
               nibh dictum, imperdiet neque vitae, lobortis enim. Nulla
@@ -52,13 +86,24 @@ export class Recipe extends React.Component {
             </p>
           </div>
         </div>
+        <ConfirmationModal
+          isRemoveRequested={this.state.isRemoveRequested}
+          handleConfirmation={this.onRemove}
+          handleCancellation={this.cancelRemove}
+          selectedRecipe={this.props.recipe.title}
+        />
       </div>
     );
   }
 }
 
 const mapStateToProps = (state, props) => ({
-  recipe: state.recipes.find(recipe => recipe.id === props.match.params.id)
+  recipe: state.recipes.find(recipe => recipe.id === props.match.params.id),
+  isAuthenticated: !!state.auth.uid
 });
 
-export default connect(mapStateToProps, undefined)(Recipe);
+const mapDispatchToProps = (dispatch, props) => ({
+  startRemoveRecipe: data => dispatch(startRemoveRecipe(data))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Recipe);

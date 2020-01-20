@@ -10,10 +10,23 @@
   text-decoration: none;
 }
 
+.button:hover {
+  background: $blue2;
+}
+
+.button a {
+  border: none;
+  color: white;
+  text-decoration: none;
+}
+
 .button--link {
   background: none;
 }
 
 .button--secondary {
-  background: #888;
+  background: $grey;
+  &:hover {
+    background: $grey2;
+  }
 }

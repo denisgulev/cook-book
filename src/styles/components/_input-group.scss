@@ -1,18 +1,71 @@
 .input-group {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin-bottom: $m-size;
-
-  @media (min-width: $desktop-breakpoint) {
-    flex-direction: row;
-    margin-bottom: $l-size;
-  }
 }
 
 .input-group__item {
   margin-bottom: $s-size;
+  margin-right: $s-size;
+}
 
-  @media (min-width: $desktop-breakpoint) {
-    margin: 0 $s-size 0 0;
+/* MEDIA QUERIES */
+/* 
+	##Device = Most of the Smartphones Mobiles (Portrait)
+	##Screen = B/w 320px to 479px
+*/
+@media (min-width: 320px) and (max-width: 480px) {
+  .input-group__item input[type="text"] {
+    width: 100%;
   }
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: $m-size;
+  }
+  .input-group__item {
+    margin-right: 0;
+  }
+}
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+@media (min-width: 481px) and (max-width: 767px) {
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: $m-size;
+  }
+  .input-group__item {
+    margin-right: 0;
+  }
+}
+/* 
+	##Device = Tablets, Ipads (portrait)
+	##Screen = B/w 768px to 1024px
+*/
+@media (min-width: 768px) and (max-width: 1024px) {
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: $m-size;
+  }
+  .input-group__item {
+    margin-right: 0;
+  }
+}
+/* 
+	##Device = Desktops
+	##Screen = 1281px to higher resolution desktops
+*/
+@media (min-width: 1281px) {
+  //CSS
+}
+/* 
+	##Device = Laptops, Desktops
+	##Screen = B/w 1025px to 1280px
+*/
+@media (min-width: 1025px) and (max-width: 1280px) {
+  //CSS
 }

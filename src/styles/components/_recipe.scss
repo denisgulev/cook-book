@@ -7,18 +7,35 @@
   padding: 0.8rem;
 }
 
+.recipe__content {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 60%;
+}
+
 .recipe__image,
 .recipe__ingredients {
   height: 40rem;
 }
 
+.recipe__description {
+  height: 500px;
+  padding: 1.3rem;
+  width: 60%;
+}
+
 .recipe__image {
   background-color: rgb(111, 111, 247);
   width: 70%;
+  img {
+    height: 100%;
+  }
 }
 
 .recipe__ingredients {
-  background-color: green;
+  background-color: #acacac;
   width: 30%;
 }
 
@@ -27,18 +44,4 @@
   background-color: #f1f1f1;
   list-style-type: none;
   padding: 0.8rem 1.3rem;
-}
-
-.recipe__content {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 60%;
-}
-
-.recipe__description {
-  height: 500px;
-  padding: 1.3rem;
-  width: 60%;
 }

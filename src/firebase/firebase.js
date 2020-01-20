@@ -2,6 +2,7 @@
 import * as firebase from "firebase/app";
 import "firebase/database";
 import "firebase/auth";
+import "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -18,8 +19,10 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.database();
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+const storage = firebase.storage();
+const storageRef = storage.ref();
 
-export { firebase, googleAuthProvider, db as default };
+export { firebase, googleAuthProvider, storageRef, db as default };
 
 /* // child_removed
 db.ref("recipes").on("child_removed", snapshot => {

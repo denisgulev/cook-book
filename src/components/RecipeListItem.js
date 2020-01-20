@@ -2,12 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
-const RecipeListItem = ({ id, title, description, createdAt }) => (
+const RecipeListItem = ({ id, title, description, createdAt, imageUrl }) => (
   <div className="list-item">
     <div className="list-item__image">
-      <Link to={`/edit/${id}`}>
-        <img src="/images/recipe.jpg" alt="Recipe Image" />
-      </Link>
+      <img src={imageUrl} alt="Recipe Image" />
     </div>
     <div className="list-item__content">
       <h3 className="list-item__title">{title}</h3>

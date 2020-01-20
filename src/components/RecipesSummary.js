@@ -3,7 +3,11 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import selectRecipes from "../selectors/recipes";
 
-const RecipesSummary = ({ visibleRecipesCount, totalRecipesCount }) => {
+const RecipesSummary = ({
+  visibleRecipesCount,
+  totalRecipesCount,
+  isAuthenticated: isAuthenticated
+}) => {
   const recipeWord = visibleRecipesCount === 1 ? "recipe" : "recipes";
 
   return (
@@ -17,11 +21,15 @@ const RecipesSummary = ({ visibleRecipesCount, totalRecipesCount }) => {
             Total number of {recipeWord}: <span>{totalRecipesCount}</span>
           </h4>
         </div>
-        <div className="page-header__actions">
-          <Link className="button" to="/create">
-            Add Recipe
-          </Link>
-        </div>
+        {isAuthenticated ? (
+          <div className="page-header__actions">
+            <button className="button">
+              <Link to="/create">Add Recipe</Link>
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
@@ -32,7 +40,8 @@ const mapStateToProps = state => {
 
   return {
     visibleRecipesCount: visibleRecipes.length,
-    totalRecipesCount: state.recipes.length
+    totalRecipesCount: state.recipes.length,
+    isAuthenticated: !!state.auth.uid
   };
 };
 

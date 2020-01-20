@@ -3,10 +3,6 @@
   flex-wrap: wrap;
   margin-bottom: $l-size;
   padding: $s-size 0;
-  @media (max-width: $desktop-breakpoint) {
-    margin-bottom: $m-size;
-    padding: $s-size 0;
-  }
 }
 
 .list-item {
@@ -18,16 +14,13 @@
   height: 360px;
   margin-right: $s-size;
   margin-bottom: $s-size;
-  width: 360px;
+  width: 310px;
   padding: 0;
   position: relative;
   text-decoration: none;
   transition: background 0.3s ease;
   &:hover {
     background: $off-white;
-  }
-  @media (max-width: $desktop-breakpoint) {
-    flex-direction: column;
   }
 }
 
@@ -75,4 +68,56 @@
 .list-item__subtitle {
   color: $grey;
   font-size: $font-size-small;
+}
+
+/* MEDIA QUERIES */
+/* 
+	##Device = Most of the Smartphones Mobiles (Portrait)
+	##Screen = B/w 320px to 479px
+*/
+@media (min-width: 320px) and (max-width: 480px) {
+  .list-body {
+    justify-content: center;
+  }
+  .list-item {
+    margin-right: 0;
+    width: 360px;
+  }
+}
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+@media (min-width: 481px) and (max-width: 767px) {
+  .list-body {
+    justify-content: center;
+  }
+  .list-item {
+    width: 360px;
+  }
+}
+/* 
+	##Device = Tablets, Ipads (portrait)
+	##Screen = B/w 768px to 1024px
+*/
+@media (min-width: 768px) and (max-width: 1024px) {
+  .list-body {
+    justify-content: space-around;
+  }
+}
+/* 
+	##Device = Laptops, Desktops
+	##Screen = B/w 1025px to 1280px
+*/
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .list-body {
+    justify-content: center;
+  }
+}
+/* 
+	##Device = Desktops
+	##Screen = 1281px to higher resolution desktops
+*/
+@media (min-width: 1281px) {
+  //CSS
 }
