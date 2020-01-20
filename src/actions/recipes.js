@@ -1,4 +1,3 @@
-import uuid from "uuid";
 import db from "../firebase/firebase";
 import "firebase/database";
 
@@ -32,13 +31,15 @@ export const startAddRecipe = (recipeData = {}) => {
       title = "",
       description = "",
       note = "",
-      createdAt = 1000
+      createdAt = 1000,
+      createdBy = uid,
+      imageUrl = ""
     } = recipeData;
 
-    const recipe = { title, description, note, createdAt };
+    const recipe = { title, description, note, createdAt, imageUrl, createdBy };
 
     return db
-      .ref(`users/${uid}/recipes`)
+      .ref(`recipes`)
       .push(recipe)
       .then(ref => {
         dispatch(
@@ -60,10 +61,10 @@ export const removeRecipe = ({ id } = {}) => ({
 
 export const startRemoveRecipe = ({ id } = {}) => {
   return (dispatch, getState) => {
-    const uid = getState().auth.uid;
+    // const uid = getState().auth.uid;
     // read data once
     return db
-      .ref(`users/${uid}/recipes/${id}`)
+      .ref(`recipes/${id}`)
       .remove()
       .then(() => {
         dispatch(removeRecipe({ id }));
@@ -86,7 +87,7 @@ export const startEditRecipe = (id, updates) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
     return db
-      .ref(`users/${uid}/recipes/${id}`)
+      .ref(`recipes/${id}`)
       .update(updates)
       .then(() => {
         dispatch(editRecipe(id, updates));
@@ -107,10 +108,10 @@ export const setRecipes = recipes => ({
 export const startSetRecipes = () => {
   const recipesFromDB = [];
   return (dispatch, getState) => {
-    const uid = getState().auth.uid;
+    // const uid = getState().auth.uid;
     // read data once
     return db
-      .ref(`users/${uid}/recipes`)
+      .ref(`recipes`)
       .once("value")
       .then(snapshot => {
         // parse data

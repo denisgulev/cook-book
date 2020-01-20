@@ -13,14 +13,14 @@ import Recipe from "../components/Recipe";
 export const history = createHistory();
 
 const AppRouter = () => (
+  //<PublicRoute path="/login" component={LoginPage} />
   <Router history={history}>
     <div>
       <Switch>
-        <PublicRoute path="/" exact={true} component={LoginPage} />
-        <PrivateRoute path="/dashboard" component={RecipeDashboardPage} />
+        <PublicRoute path="/dashboard" component={RecipeDashboardPage} />
         <PrivateRoute path="/create" component={AddRecipePage} />
         <PrivateRoute path="/edit/:id" component={EditRecipePage} />
-        <PrivateRoute path="/recipe/:id" component={Recipe} />
+        <PublicRoute path="/recipe/:id" component={Recipe} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

@@ -1,17 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
+import Header from "../components/Header";
 
-export const PublicRoute = ({
-  isAuthenticated,
-  component: Component,
-  path: newPath
-}) => (
+export const PublicRoute = ({ component: Component, path: newPath }) => (
   <Route
     path={newPath}
-    component={props =>
-      isAuthenticated ? <Redirect to="/dashboard" /> : <Component {...props} />
-    }
+    component={props => (
+      <div>
+        <Header />
+        <Component {...props} />
+      </div>
+    )}
   />
 );
 
