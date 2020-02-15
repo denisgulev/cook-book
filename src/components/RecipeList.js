@@ -8,7 +8,7 @@ export const RecipeList = props => (
     <div className="list-body">
       {props.recipes.length === 0 ? (
         <div className="list-item list-item--message">
-          <span>No recipes</span>
+          <span>Nessuna ricetta</span>
         </div>
       ) : (
         props.recipes.map(recipe => {

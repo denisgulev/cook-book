@@ -112,10 +112,14 @@ export default class RecipeForm extends React.Component {
       "state_changed",
       snapshot => {
         let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Progress ", progress);
-        this.state.progress = progress;
+        console.log("Progress " + progress + "%");
+        this.setState({
+          progress
+        });
       },
-      null,
+      error => {
+        // NOOP
+      },
       () => {
         // Upload completed successfully, now we can get the download URL
         uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
@@ -210,7 +214,7 @@ export default class RecipeForm extends React.Component {
     return (
       <form className="form" onSubmit={this.onSubmit}>
         {this.state.error && <p className="form__error">{this.state.error}</p>}
-        <label htmlFor="title">Title</label>
+        <label htmlFor="title">Titolo</label>
         <input
           id="title"
           type="text"
@@ -220,7 +224,7 @@ export default class RecipeForm extends React.Component {
           value={this.state.title}
           onChange={this.onTitleChange}
         />
-        <label htmlFor="description">Description</label>
+        <label htmlFor="description">Descrizione</label>
         <input
           id="description"
           type="text"
@@ -229,7 +233,7 @@ export default class RecipeForm extends React.Component {
           value={this.state.description}
           onChange={this.onDescriptionChange}
         />
-        <label htmlFor="date">Date</label>
+        <label htmlFor="date">Data</label>
         <SingleDatePicker
           id="date"
           date={this.state.createdAt}
@@ -247,7 +251,7 @@ export default class RecipeForm extends React.Component {
           value={this.state.note}
           onChange={this.onNoteChange}
         ></textarea>
-        <label htmlFor="image">Image</label>
+        <label htmlFor="image">Immagine</label>
         <input id="image" type="file" onChange={this.onImageChange} />
         <img
           src={
@@ -260,12 +264,18 @@ export default class RecipeForm extends React.Component {
           height="300"
           width="400"
         />
-        <button className="button" onClick={this.handleUpload}>
-          Upload
+        <button
+          className="button"
+          onClick={this.handleUpload}
+          disabled={this.state.progress != 0 && this.state.progress != 100}
+        >
+          {this.state.progress == 0 || this.state.progress == 100
+            ? "Carica"
+            : "Caricamento..."}
         </button>
         <fieldset>
-          <legend>Ingredients</legend>
-          <button onClick={this.addIngredient}>Add new ingredient</button>
+          <legend>Ingredienti</legend>
+          <button onClick={this.addIngredient}>Aggiungi nuovo</button>
           <br />
           <br />
           {console.log("ingredients ", this.state.ingredients)}
@@ -297,10 +307,10 @@ export default class RecipeForm extends React.Component {
                       value={unit !== "" ? unit : this.state.lastUnit}
                     />
                     <button onClick={this.updateIngredient} data-save-id={id}>
-                      update
+                      Aggiorna
                     </button>
                     <button onClick={this.removeIngredient} data-remove-id={id}>
-                      remove
+                      Rimuovi
                     </button>
                     <br />
                     <br />
@@ -310,7 +320,7 @@ export default class RecipeForm extends React.Component {
             : ""}
         </fieldset>
         <div>
-          <button className="button">Save Recipe</button>
+          <button className="button">Salva Ricetta</button>
         </div>
       </form>
     );
