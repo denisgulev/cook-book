@@ -1,11 +1,10 @@
 .input-group {
   display: flex;
   flex-direction: row;
-  margin-bottom: $m-size;
+  padding: 1em 0;
 }
 
 .input-group__item {
-  margin-bottom: $s-size;
   margin-right: $s-size;
 }
 

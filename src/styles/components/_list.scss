@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   margin-bottom: $l-size;
-  padding: $s-size 0;
+  padding: 0 0 $s-size 0;
 }
 
 .list-item {
@@ -18,10 +18,7 @@
   padding: 0;
   position: relative;
   text-decoration: none;
-  transition: background 0.3s ease;
-  &:hover {
-    background: $off-white;
-  }
+  background: $off-white;
 }
 
 .list-item:last-child {
