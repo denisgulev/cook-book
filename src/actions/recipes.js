@@ -33,10 +33,19 @@ export const startAddRecipe = (recipeData = {}) => {
       note = "",
       createdAt = 1000,
       createdBy = uid,
-      imageUrl = ""
+      imageUrl = "",
+      ingredients = []
     } = recipeData;
 
-    const recipe = { title, description, note, createdAt, imageUrl, createdBy };
+    const recipe = {
+      title,
+      description,
+      note,
+      createdAt,
+      imageUrl,
+      createdBy,
+      ingredients
+    };
 
     return db
       .ref(`recipes`)

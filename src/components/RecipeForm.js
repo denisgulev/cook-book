@@ -11,13 +11,18 @@ export default class RecipeForm extends React.Component {
       title: props.recipe ? props.recipe.title : "",
       description: props.recipe ? props.recipe.description : "",
       createdAt: props.recipe ? moment(props.recipe.createdAt) : moment(),
-      imageUrl: "",
+      imageUrl: props.recipe ? props.recipe.imageUrl : "",
       urlLocal: "",
       progress: 0,
       note: props.recipe ? props.recipe.note : "",
       calendarFocused: false,
       error: "",
-      ingredients: [{ id: 0, name: "", qty: "", unit: "" }]
+      lastName: "",
+      lastQty: 0,
+      lastUnit: "",
+      ingredients: props.recipe
+        ? props.recipe.ingredients
+        : [{ id: 0, name: "", qty: "", unit: "" }]
     };
   }
 
@@ -77,7 +82,8 @@ export default class RecipeForm extends React.Component {
         description: this.state.description,
         createdAt: this.state.createdAt.valueOf(),
         note: this.state.note,
-        imageUrl: this.state.imageUrl
+        imageUrl: this.state.imageUrl,
+        ingredients: this.state.ingredients
       });
     }
   };
@@ -137,19 +143,36 @@ export default class RecipeForm extends React.Component {
     }));
   };
 
+  updateIngredient = e => {
+    e.preventDefault();
+
+    console.log("target.id ", e.target.getAttribute("data-save-id"));
+
+    this.state.ingredients[
+      e.target.getAttribute("data-save-id")
+    ].name = this.state.lastName;
+    this.state.ingredients[
+      e.target.getAttribute("data-save-id")
+    ].qty = this.state.lastQty;
+    this.state.ingredients[
+      e.target.getAttribute("data-save-id")
+    ].unit = this.state.lastUnit;
+
+    this.setState(() => ({
+      lastName: "",
+      lastQty: "",
+      lastUnit: ""
+    }));
+  };
+
   removeIngredient = async e => {
     e.preventDefault();
 
-    console.log("target id : ", e.target.id);
     let currIngredients = this.state.ingredients;
 
     let tempIngredients = await currIngredients.filter(ingredient => {
-      console.log(ingredient.id);
-      console.log(e.target.id);
-      return ingredient.id != e.target.id;
+      return ingredient.id != e.target.getAttribute("data-remove-id");
     });
-
-    console.log("final length :", tempIngredients.length);
 
     this.setState(() => ({
       ingredients: [...tempIngredients]
@@ -159,11 +182,27 @@ export default class RecipeForm extends React.Component {
   onIngredientChange = e => {
     const name = e.target.name;
     const value = e.target.value;
-    this.setState(() => ({
-      ingredients: [...this.state.ingredients, { [name]: value }]
-    }));
 
-    this.state.ingredients.forEach(el => console.log("EL ", el));
+    switch (name) {
+      case "name":
+        this.setState(() => ({
+          lastName: value
+        }));
+
+        break;
+      case "qty":
+        this.setState(() => ({
+          lastQty: value
+        }));
+
+        break;
+      case "unit":
+        this.setState(() => ({
+          lastUnit: value
+        }));
+
+        break;
+    }
   };
 
   render() {
@@ -211,7 +250,11 @@ export default class RecipeForm extends React.Component {
         <label htmlFor="image">Image</label>
         <input id="image" type="file" onChange={this.onImageChange} />
         <img
-          src="https://via.placeholder.com/400x300"
+          src={
+            this.state.imageUrl
+              ? this.state.imageUrl
+              : "https://via.placeholder.com/400x300"
+          }
           alt="Uploaded Image"
           id="imageToUpload"
           height="300"
@@ -223,40 +266,48 @@ export default class RecipeForm extends React.Component {
         <fieldset>
           <legend>Ingredients</legend>
           <button onClick={this.addIngredient}>Add new ingredient</button>
-          {ingredients.map(({ id, name, qty, unit }) => {
-            console.log("ID ", id);
-            let ing = `id_${id}`;
-            return (
-              <div key={ing}>
-                name:{" "}
-                <input
-                  name="name"
-                  onChange={this.onIngredientChange}
-                  type="text"
-                  value={name}
-                />{" "}
-                qty:{" "}
-                <input
-                  name="qty"
-                  onChange={this.onIngredientChange}
-                  type="number"
-                  value={qty}
-                />{" "}
-                unit:{" "}
-                <input
-                  name="unit"
-                  onChange={this.onIngredientChange}
-                  type="text"
-                  value={unit}
-                />
-                <button onClick={this.removeIngredient} id={id}>
-                  X
-                </button>
-                <br />
-                <br />
-              </div>
-            );
-          })}
+          <br />
+          <br />
+          {console.log("ingredients ", this.state.ingredients)}
+          {ingredients
+            ? ingredients.map(({ id, name, qty, unit }) => {
+                console.log("ID ", id);
+                let ing = `id_${id}`;
+                return (
+                  <div key={ing}>
+                    name:{" "}
+                    <input
+                      name="name"
+                      onChange={this.onIngredientChange}
+                      type="text"
+                      value={name !== "" ? name : this.state.lastName}
+                    />{" "}
+                    qty:{" "}
+                    <input
+                      name="qty"
+                      onChange={this.onIngredientChange}
+                      type="number"
+                      value={qty != 0 ? qty : this.state.lastQty}
+                    />{" "}
+                    unit:{" "}
+                    <input
+                      name="unit"
+                      onChange={this.onIngredientChange}
+                      type="text"
+                      value={unit !== "" ? unit : this.state.lastUnit}
+                    />
+                    <button onClick={this.updateIngredient} data-save-id={id}>
+                      update
+                    </button>
+                    <button onClick={this.removeIngredient} data-remove-id={id}>
+                      remove
+                    </button>
+                    <br />
+                    <br />
+                  </div>
+                );
+              })
+            : ""}
         </fieldset>
         <div>
           <button className="button">Save Recipe</button>

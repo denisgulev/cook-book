@@ -30,7 +30,7 @@ export class Recipe extends React.Component {
           <div className="content-container page-header__content">
             <h1 className="page-header__title">Viewing Recipe</h1>
             {this.props.isAuthenticated ? (
-              <>
+              <React.Fragment>
                 <button className="button">
                   <Link to={`/edit/${this.props.recipe.id}`}>Edit Recipe</Link>
                 </button>
@@ -40,7 +40,7 @@ export class Recipe extends React.Component {
                 >
                   Remove Recipe
                 </button>
-              </>
+              </React.Fragment>
             ) : (
               ""
             )}
@@ -52,10 +52,17 @@ export class Recipe extends React.Component {
               <img src={this.props.recipe.imageUrl} />
             </div>
             <div className="recipe__ingredients">
+              <span>Ingredients</span>
               <ul>
-                <li>Coffee</li>
-                <li>Tea</li>
-                <li>Coca Cola</li>
+                {this.props.recipe.ingredients
+                  ? this.props.recipe.ingredients.map(
+                      ({ id, name, qty, unit }) => (
+                        <li key={id}>
+                          {name} - {qty} - {unit}
+                        </li>
+                      )
+                    )
+                  : ""}
               </ul>
             </div>
           </div>
