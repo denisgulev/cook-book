@@ -6,7 +6,8 @@ const filtersReducerDefaultState = {
   text: "",
   sortBy: "date",
   startDate: moment().startOf("month"),
-  endDate: moment().endOf("month")
+  endDate: moment().endOf("month"),
+  category: "all"
 };
 
 const filtersReducer = (state = filtersReducerDefaultState, action) => {
@@ -30,6 +31,16 @@ const filtersReducer = (state = filtersReducerDefaultState, action) => {
       return {
         ...state,
         endDate: action.endDate
+      };
+    case "SORT_BY_CATEGORY":
+      return {
+        ...state,
+        sortBy: "category"
+      };
+    case "SET_CATEGORY":
+      return {
+        ...state,
+        category: action.category
       };
     default:
       return state;

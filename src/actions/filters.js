@@ -24,3 +24,14 @@ export const setEndDate = endDate => ({
   type: "SET_END_DATE",
   endDate
 });
+
+// set sort by category
+
+export const sortByCategory = () => ({
+  type: "SORT_BY_CATEGORY"
+});
+
+export const setCategory = category => ({
+  type: "SET_CATEGORY",
+  category
+});

@@ -1,16 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { DateRangePicker } from "react-dates";
-import {
-  setTextFilter,
-  sortByDate,
-  setStartDate,
-  setEndDate
-} from "../actions/filters";
+import { setTextFilter, sortByDate, setStartDate, setEndDate, sortByCategory, setCategory } from "../actions/filters";
 
 export class RecipeListFilters extends React.Component {
   state = {
-    calendarFocused: null
+    calendarFocused: null,
+    showCategory: false
   };
 
   onDatesChange = ({ startDate, endDate }) => {
@@ -27,10 +23,23 @@ export class RecipeListFilters extends React.Component {
     this.props.setTextFilter(e.target.value);
   };
 
+  onCategoryChange = e => {
+    //console.log("Cat ", e.target.value);
+    this.props.setCategory(e.target.value);
+  };
+
   onSortChange = e => {
     let sortBy = e.target.value;
 
-    if (sortBy === "date") this.props.sortByDate();
+    if (sortBy === "date") {
+      this.props.filters.sortBy = "date";
+      this.setState(() => ({ showCategory: false }));
+      this.props.sortByDate();
+    } else if (sortBy === "category") {
+      this.props.filters.sortBy = "category";
+      this.setState(() => ({ showCategory: true }));
+      this.props.sortByCategory();
+    }
   };
   render() {
     return (
@@ -40,31 +49,38 @@ export class RecipeListFilters extends React.Component {
             <input
               type="text"
               className="text-input"
-              placeholder="Serach a recipe"
+              placeholder="Cerca..."
               value={this.props.filters.text}
               onChange={this.onTextChange}
             />
           </div>
           <div className="input-group__item">
-            <select
-              className="select"
-              value={this.props.filters.sortBy}
-              onChange={this.onSortChange}
-            >
-              <option value="date">Date</option>
+            <select className="select" value={this.props.filters.sortBy} onChange={this.onSortChange}>
+              <option value="date">Data</option>
+              <option value="category">Categoria</option>
             </select>
           </div>
           <div className="input-group__item">
-            <DateRangePicker
-              startDate={this.props.filters.startDate}
-              endDate={this.props.filters.endDate}
-              onDatesChange={this.onDatesChange}
-              focusedInput={this.state.calendarFocused}
-              onFocusChange={this.onFocusChange}
-              showClearDates={true}
-              numberOfMonths={1}
-              isOutsideRange={() => false}
-            />
+            {this.state.showCategory ? (
+              <select id="category" className="text-input" value={this.state.category} onChange={this.onCategoryChange}>
+                <option value="all">Generica</option>
+                <option value="antipasti">Antipasti</option>
+                <option value="primi">Primi</option>
+                <option value="secondi">Secondi</option>
+                <option value="dessert">Dessert</option>
+              </select>
+            ) : (
+              <DateRangePicker
+                startDate={this.props.filters.startDate}
+                endDate={this.props.filters.endDate}
+                onDatesChange={this.onDatesChange}
+                focusedInput={this.state.calendarFocused}
+                onFocusChange={this.onFocusChange}
+                showClearDates={true}
+                numberOfMonths={1}
+                isOutsideRange={() => false}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -80,7 +96,9 @@ const mapDispatchToProps = dispatch => ({
   setTextFilter: text => dispatch(setTextFilter(text)),
   sortByDate: () => dispatch(sortByDate()),
   setStartDate: startDate => dispatch(setStartDate(startDate)),
-  setEndDate: endDate => dispatch(setEndDate(endDate))
+  setEndDate: endDate => dispatch(setEndDate(endDate)),
+  sortByCategory: () => dispatch(sortByCategory()),
+  setCategory: category => dispatch(setCategory(category))
 });
 
 // this way the component will have access to props.filter.text

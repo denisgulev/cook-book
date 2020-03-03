@@ -10,6 +10,7 @@ export default class RecipeForm extends React.Component {
     this.state = {
       title: props.recipe ? props.recipe.title : "",
       description: props.recipe ? props.recipe.description : "",
+      category: props.recipe ? props.recipe.category : "",
       createdAt: props.recipe ? moment(props.recipe.createdAt) : moment(),
       imageUrl: props.recipe ? props.recipe.imageUrl : "",
       urlLocal: "",
@@ -17,12 +18,7 @@ export default class RecipeForm extends React.Component {
       note: props.recipe ? props.recipe.note : "",
       calendarFocused: false,
       error: "",
-      lastName: "",
-      lastQty: 0,
-      lastUnit: "",
-      ingredients: props.recipe
-        ? props.recipe.ingredients
-        : [{ id: 0, name: "", qty: "", unit: "" }]
+      ingredients: props.recipe ? props.recipe.ingredients : [{ name: "", qty: "", unit: "" }]
     };
   }
 
@@ -34,6 +30,11 @@ export default class RecipeForm extends React.Component {
   onDescriptionChange = e => {
     const description = e.target.value;
     this.setState(() => ({ description }));
+  };
+
+  onCategoryChange = e => {
+    const category = e.target.value;
+    this.setState(() => ({ category }));
   };
 
   onNoteChange = e => {
@@ -80,6 +81,7 @@ export default class RecipeForm extends React.Component {
       this.props.onSubmit({
         title: this.state.title,
         description: this.state.description,
+        category: this.state.category,
         createdAt: this.state.createdAt.valueOf(),
         note: this.state.note,
         imageUrl: this.state.imageUrl,
@@ -99,13 +101,9 @@ export default class RecipeForm extends React.Component {
     let uploadTask;
 
     if (this.state.title) {
-      uploadTask = storageRef
-        .child(`image/${this.state.title}`)
-        .put(this.state.imageUrl, metadata);
+      uploadTask = storageRef.child(`image/${this.state.title}`).put(this.state.imageUrl, metadata);
     } else {
-      uploadTask = storageRef
-        .child(`image/temp`)
-        .put(this.state.imageUrl, metadata);
+      uploadTask = storageRef.child(`image/temp`).put(this.state.imageUrl, metadata);
     }
 
     uploadTask.on(
@@ -138,7 +136,6 @@ export default class RecipeForm extends React.Component {
       ingredients: [
         ...this.state.ingredients,
         {
-          id: this.state.ingredients.length,
           name: "",
           qty: "",
           unit: ""
@@ -147,35 +144,13 @@ export default class RecipeForm extends React.Component {
     }));
   };
 
-  updateIngredient = e => {
-    e.preventDefault();
-
-    console.log("target.id ", e.target.getAttribute("data-save-id"));
-
-    this.state.ingredients[
-      e.target.getAttribute("data-save-id")
-    ].name = this.state.lastName;
-    this.state.ingredients[
-      e.target.getAttribute("data-save-id")
-    ].qty = this.state.lastQty;
-    this.state.ingredients[
-      e.target.getAttribute("data-save-id")
-    ].unit = this.state.lastUnit;
-
-    this.setState(() => ({
-      lastName: "",
-      lastQty: "",
-      lastUnit: ""
-    }));
-  };
-
-  removeIngredient = async e => {
+  removeIngredient = e => {
     e.preventDefault();
 
     let currIngredients = this.state.ingredients;
 
-    let tempIngredients = await currIngredients.filter(ingredient => {
-      return ingredient.id != e.target.getAttribute("data-remove-id");
+    let tempIngredients = currIngredients.filter((ingredient, index) => {
+      return index != e.target.getAttribute("data-remove-id");
     });
 
     this.setState(() => ({
@@ -184,29 +159,16 @@ export default class RecipeForm extends React.Component {
   };
 
   onIngredientChange = e => {
-    const name = e.target.name;
-    const value = e.target.value;
+    const changedName = e.target.name;
+    const changedValue = e.target.value;
 
-    switch (name) {
-      case "name":
-        this.setState(() => ({
-          lastName: value
-        }));
+    const currIngredients = this.state.ingredients;
 
-        break;
-      case "qty":
-        this.setState(() => ({
-          lastQty: value
-        }));
+    currIngredients[e.target.getAttribute("data-index")][changedName] = changedValue;
 
-        break;
-      case "unit":
-        this.setState(() => ({
-          lastUnit: value
-        }));
-
-        break;
-    }
+    this.setState(() => ({
+      ingredients: [...currIngredients]
+    }));
   };
 
   render() {
@@ -233,6 +195,14 @@ export default class RecipeForm extends React.Component {
           value={this.state.description}
           onChange={this.onDescriptionChange}
         />
+        <label htmlFor="category">Categoria</label>
+        <select id="category" className="text-input" value={this.state.category} onChange={this.onCategoryChange}>
+          <option value="all">Generica</option>
+          <option value="antipasti">Antipasti</option>
+          <option value="primi">Primi</option>
+          <option value="secondi">Secondi</option>
+          <option value="dessert">Dessert</option>
+        </select>
         <label htmlFor="date">Data</label>
         <SingleDatePicker
           id="date"
@@ -254,24 +224,14 @@ export default class RecipeForm extends React.Component {
         <label htmlFor="image">Immagine</label>
         <input id="image" type="file" onChange={this.onImageChange} />
         <img
-          src={
-            this.state.imageUrl
-              ? this.state.imageUrl
-              : "https://via.placeholder.com/400x300"
-          }
+          src={this.state.imageUrl ? this.state.imageUrl : "https://via.placeholder.com/400x300"}
           alt="Uploaded Image"
           id="imageToUpload"
           height="300"
           width="400"
         />
-        <button
-          className="button"
-          onClick={this.handleUpload}
-          disabled={this.state.progress != 0 && this.state.progress != 100}
-        >
-          {this.state.progress == 0 || this.state.progress == 100
-            ? "Carica"
-            : "Caricamento..."}
+        <button className="button" onClick={this.handleUpload} disabled={this.state.progress != 0 && this.state.progress != 100}>
+          {this.state.progress == 0 || this.state.progress == 100 ? "Carica" : "Caricamento..."}
         </button>
         <fieldset>
           <legend>Ingredienti</legend>
@@ -280,36 +240,36 @@ export default class RecipeForm extends React.Component {
           <br />
           {console.log("ingredients ", this.state.ingredients)}
           {ingredients
-            ? ingredients.map(({ id, name, qty, unit }) => {
-                console.log("ID ", id);
-                let ing = `id_${id}`;
+            ? ingredients.map(({ name, qty, unit }, index) => {
+                console.log("ID ", index);
+                let ing = `id_${index}`;
                 return (
                   <div key={ing}>
                     name:{" "}
                     <input
+                      data-index={index}
                       name="name"
                       onChange={this.onIngredientChange}
                       type="text"
-                      value={name !== "" ? name : this.state.lastName}
+                      value={name !== "" ? name : ""}
                     />{" "}
                     qty:{" "}
                     <input
+                      data-index={index}
                       name="qty"
                       onChange={this.onIngredientChange}
                       type="number"
-                      value={qty != 0 ? qty : this.state.lastQty}
+                      value={qty != 0 ? qty : ""}
                     />{" "}
                     unit:{" "}
                     <input
+                      data-index={index}
                       name="unit"
                       onChange={this.onIngredientChange}
                       type="text"
-                      value={unit !== "" ? unit : this.state.lastUnit}
+                      value={unit !== "" ? unit : ""}
                     />
-                    <button onClick={this.updateIngredient} data-save-id={id}>
-                      Aggiorna
-                    </button>
-                    <button onClick={this.removeIngredient} data-remove-id={id}>
+                    <button onClick={this.removeIngredient} data-remove-id={index}>
                       Rimuovi
                     </button>
                     <br />

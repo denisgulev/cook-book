@@ -30,6 +30,7 @@ export const startAddRecipe = (recipeData = {}) => {
     const {
       title = "",
       description = "",
+      category = "",
       note = "",
       createdAt = 1000,
       createdBy = uid,
@@ -40,6 +41,7 @@ export const startAddRecipe = (recipeData = {}) => {
     const recipe = {
       title,
       description,
+      category,
       note,
       createdAt,
       imageUrl,
