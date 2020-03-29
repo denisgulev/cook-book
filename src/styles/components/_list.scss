@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   margin-bottom: $l-size;
-  padding: 0 0 $s-size 0;
+  padding: $s-size 0 $s-size 0;
 }
 
 .list-item {

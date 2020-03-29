@@ -1,12 +1,12 @@
-import React from "react";
-import RecipeForm from "./RecipeForm";
-import { connect } from "react-redux";
-import { startAddRecipe } from "../actions/recipes";
+import React from 'react';
+import RecipeForm from './RecipeForm';
+import { connect } from 'react-redux';
+import { startAddRecipe } from '../actions/recipes';
 
 export class AddRecipePage extends React.Component {
   onSubmit = recipe => {
     this.props.startAddRecipe(recipe);
-    this.props.history.push("/dashboard");
+    this.props.history.push('/');
   };
 
   render() {

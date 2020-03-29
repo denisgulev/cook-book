@@ -1,18 +1,37 @@
-import { firebase, googleAuthProvider } from "../firebase/firebase";
+import { firebase } from '../firebase/firebase';
 
 export const login = uid => ({
-  type: "LOGIN",
+  type: 'LOGIN',
   uid
 });
 
-export const startLogin = () => {
+export const startLogin = (email, password) => {
   return () => {
-    return firebase.auth().signInWithPopup(googleAuthProvider);
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        switch (errorCode) {
+          case 'auth/user-not-found':
+            alert('Email non riconosciuta.');
+            break;
+          case 'auth/wrong-password':
+            alert('Password non valida.');
+            break;
+          case 'auth/invalid-email':
+            alert('Inserire una email valida.');
+            break;
+          default:
+            break;
+        }
+      });
   };
 };
 
 export const logout = () => ({
-  type: "LOGOUT"
+  type: 'LOGOUT'
 });
 
 export const startLogout = () => {

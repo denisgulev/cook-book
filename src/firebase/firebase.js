@@ -1,8 +1,8 @@
 // connection to the db
-import * as firebase from "firebase/app";
-import "firebase/database";
-import "firebase/auth";
-import "firebase/storage";
+import * as firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/auth';
+import 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -18,11 +18,22 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const db = firebase.database();
-const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+/* const authProvider = new firebase.auth.signInWithEmailAndPassword(
+  email,
+  password
+).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  console.log('errorCode', errorCode);
+  console.log('errorMessage', errorMessage);
+
+  // ...
+}); */
 const storage = firebase.storage();
 const storageRef = storage.ref();
 
-export { firebase, googleAuthProvider, storageRef, db as default };
+export { firebase, /*  authProvider, */ storageRef, db as default };
 
 /* // child_removed
 db.ref("recipes").on("child_removed", snapshot => {

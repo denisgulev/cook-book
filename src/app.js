@@ -1,15 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { startSetRecipes } from "../src/actions/recipes";
-import { login, logout } from "./actions/auth";
-import AppRouter, { history } from "./routers/AppRouter";
-import LoadingPage from "./components/LoadingPage";
-import configureStore from "./store/configureStore";
-import "normalize.css/normalize.css";
-import "./styles/styles.scss";
-import { firebase } from "./firebase/firebase";
-import "react-dates/lib/css/_datepicker.css";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { startSetRecipes } from '../src/actions/recipes';
+import { login, logout } from './actions/auth';
+import AppRouter, { history } from './routers/AppRouter';
+import LoadingPage from './components/LoadingPage';
+import configureStore from './store/configureStore';
+import 'normalize.css/normalize.css';
+import './styles/styles.scss';
+import { firebase } from './firebase/firebase';
 
 const store = configureStore();
 
@@ -23,12 +22,12 @@ const jsx = (
 let hasRendered = false;
 const renderApp = () => {
   if (!hasRendered) {
-    ReactDOM.render(jsx, document.getElementById("app"));
+    ReactDOM.render(jsx, document.getElementById('app'));
     hasRendered = true;
   }
 };
 
-ReactDOM.render(<LoadingPage />, document.getElementById("app"));
+ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
@@ -36,8 +35,6 @@ firebase.auth().onAuthStateChanged(user => {
   } else {
     store.dispatch(logout());
   }
-
-  store.dispatch(startSetRecipes());
-  history.push("/dashboard");
   renderApp();
+  store.dispatch(startSetRecipes());
 });
