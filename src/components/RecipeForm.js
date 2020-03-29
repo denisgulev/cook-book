@@ -12,6 +12,7 @@ export default class RecipeForm extends React.Component {
       category: props.recipe ? props.recipe.category : '',
       createdAt: moment(),
       imageUrl: props.recipe ? props.recipe.imageUrl : '',
+      imageName: '',
       urlLocal: '',
       progress: 0,
       note: props.recipe ? props.recipe.note : '',
@@ -44,7 +45,12 @@ export default class RecipeForm extends React.Component {
   };
 
   onImageChange = e => {
-    this.setState({ imageUrl: e.target.files[0] });
+    console.log('oonImageChange', e.target.files[0]);
+    this.setState({
+      imageUrl: e.target.files[0],
+      imageName: e.target.files[0].name,
+      progress: 0
+    });
 
     let file = e.target.files[0];
 
@@ -87,7 +93,7 @@ export default class RecipeForm extends React.Component {
 
   handleUpload = e => {
     e.preventDefault();
-    console.log('started uploading', this.state.imageUrl, this.props.recipe);
+    //console.log('started uploading', this.state.imageUrl, this.props.recipe);
 
     const metadata = {
       contentType: 'image/jpeg'
@@ -97,11 +103,11 @@ export default class RecipeForm extends React.Component {
 
     if (this.state.title) {
       uploadTask = storageRef
-        .child(`image/${this.state.title}`)
+        .child(`image/${this.state.title}/${this.state.imageName}`)
         .put(this.state.imageUrl, metadata);
     } else {
       uploadTask = storageRef
-        .child(`image/temp`)
+        .child(`image/temp/${this.state.imageName}`)
         .put(this.state.imageUrl, metadata);
     }
 
@@ -120,9 +126,9 @@ export default class RecipeForm extends React.Component {
       () => {
         // Upload completed successfully, now we can get the download URL
         uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-          console.log('File available at', downloadURL);
+          //console.log('File available at', downloadURL);
           this.state.imageUrl = downloadURL;
-          console.log(this.state.imageUrl);
+          //console.log(this.state.imageUrl);
         });
       }
     );
@@ -231,23 +237,21 @@ export default class RecipeForm extends React.Component {
           width="400"
         />
         <button
-          className="button"
+          className={this.state.progress !== 100 ? 'button' : 'green'}
           onClick={this.handleUpload}
-          disabled={this.state.progress != 0 && this.state.progress != 100}
+          disabled={this.state.progress == 100}
         >
-          {this.state.progress == 0 || this.state.progress == 100
-            ? 'Carica'
-            : 'Caricamento...'}
+          {this.state.progress !== 100 ? 'Carica' : 'Immagine caricata'}
         </button>
         <fieldset>
           <legend>Ingredienti</legend>
           <button onClick={this.addIngredient}>Aggiungi nuovo</button>
           <br />
           <br />
-          {console.log('ingredients ', this.state.ingredients)}
+          {/*console.log('ingredients ', this.state.ingredients)*/}
           {ingredients
             ? ingredients.map(({ name, qty, unit }, index) => {
-                console.log('ID ', index);
+                //console.log('ID ', index);
                 let ing = `id_${index}`;
                 return (
                   <div key={ing}>
