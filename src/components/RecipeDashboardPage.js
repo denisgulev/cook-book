@@ -6,7 +6,6 @@ import RecipesSummary from "./RecipesSummary";
 const RecipeDashboardPage = () => (
   <div>
     <RecipesSummary />
-    <RecipeListFilters />
     <RecipeList />
   </div>
 );
