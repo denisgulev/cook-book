@@ -1,11 +1,11 @@
-// set text filter
+import * as actions from "./actionTypes";
 
-export const setTextFilter = (newText = '') => ({
-  type: 'SET_TEXT_FILTER',
+export const setTextFilter = (newText = "") => ({
+  type: actions.SET_TEXT_FILTER,
   newText
 });
 
 export const setCategory = category => ({
-  type: 'SET_CATEGORY',
+  type: actions.SET_CATEGORY,
   category
 });

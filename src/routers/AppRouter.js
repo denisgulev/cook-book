@@ -1,20 +1,23 @@
-import React from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
-import createHistory from 'history/createBrowserHistory';
-import RecipeDashboardPage from '../components/RecipeDashboardPage';
-import EditRecipePage from '../components/EditRecipePage';
-import AddRecipePage from '../components/AddRecipePage';
-import NotFoundPage from '../components/NotFoundPage';
-import LoginPage from '../components/LoginPage';
-import PrivateRoute from './PrivateRoute';
-import PublicRoute from './PublicRoute';
-import Recipe from '../components/Recipe';
+import React from "react";
+import { Router, Route, Switch } from "react-router-dom";
+import createHistory from "history/createBrowserHistory";
+import RecipeDashboardPage from "../components/RecipeDashboardPage";
+import EditRecipePage from "../components/EditRecipePage";
+import AddRecipePage from "../components/AddRecipePage";
+import NotFoundPage from "../components/NotFoundPage";
+import LoginPage from "../components/LoginPage";
+import PrivateRoute from "./PrivateRoute";
+import PublicRoute from "./PublicRoute";
+import Recipe from "../components/Recipe";
+import Loader from "react-promise-loader";
+import { usePromiseTracker } from "react-promise-tracker";
 
 export const history = createHistory();
 
 const AppRouter = () => (
   <Router history={history}>
     <div>
+      <Loader promiseTracker={usePromiseTracker} />
       <Switch>
         <PublicRoute exact path="/login" component={LoginPage} />
         <PublicRoute exact path="/" component={RecipeDashboardPage} />

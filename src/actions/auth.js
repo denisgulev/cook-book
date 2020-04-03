@@ -1,7 +1,8 @@
-import { firebase } from '../firebase/firebase';
+import { firebase } from "../firebase/firebase";
+import * as actions from "./actionTypes";
 
 export const login = uid => ({
-  type: 'LOGIN',
+  type: actions.LOGIN,
   uid
 });
 
@@ -14,14 +15,14 @@ export const startLogin = (email, password) => {
         // Handle Errors here.
         var errorCode = error.code;
         switch (errorCode) {
-          case 'auth/user-not-found':
-            alert('Email non riconosciuta.');
+          case "auth/user-not-found":
+            alert("Email non riconosciuta.");
             break;
-          case 'auth/wrong-password':
-            alert('Password non valida.');
+          case "auth/wrong-password":
+            alert("Password non valida.");
             break;
-          case 'auth/invalid-email':
-            alert('Inserire una email valida.');
+          case "auth/invalid-email":
+            alert("Inserire una email valida.");
             break;
           default:
             break;
@@ -31,7 +32,7 @@ export const startLogin = (email, password) => {
 };
 
 export const logout = () => ({
-  type: 'LOGOUT'
+  type: actions.LOGOUT
 });
 
 export const startLogout = () => {

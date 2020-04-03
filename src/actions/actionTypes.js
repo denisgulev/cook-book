@@ -1,0 +1,9 @@
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
+export const SET_TEXT_FILTER = "SET_TEXT_FILTER";
+export const SET_CATEGORY = "SET_CATEGORY";
+export const SORT_BY_CATEGORY = "SORT_BY_CATEGORY";
+export const ADD_RECIPE = "ADD_RECIPE";
+export const REMOVE_RECIPE = "REMOVE_RECIPE";
+export const EDIT_RECIPE = "EDIT_RECIPE";
+export const SET_RECIPES = "SET_RECIPES";

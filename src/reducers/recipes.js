@@ -1,14 +1,14 @@
-// RECIPES REDUCER
+import * as actions from "../actions/actionTypes";
 
 const recipesReducerDefaultState = [];
 
 const recipesReducer = (state = recipesReducerDefaultState, action) => {
   switch (action.type) {
-    case "ADD_RECIPE":
+    case actions.ADD_RECIPE:
       return [...state, action.recipe];
-    case "REMOVE_RECIPE":
+    case actions.REMOVE_RECIPE:
       return state.filter(({ id }) => id !== action.id);
-    case "EDIT_RECIPE":
+    case actions.EDIT_RECIPE:
       return state.map(recipe => {
         if (recipe.id === action.id) {
           return {
@@ -19,7 +19,7 @@ const recipesReducer = (state = recipesReducerDefaultState, action) => {
           return recipe;
         }
       });
-    case "SET_RECIPES":
+    case actions.SET_RECIPES:
       return action.recipes;
     default:
       return state;

@@ -1,6 +1,9 @@
 import db from "../firebase/firebase";
 import "firebase/database";
 
+import * as actions from "./actionTypes";
+import { trackPromise } from "react-promise-tracker";
+
 /* WHITOUT DB */
 /**
  * component calls action generator
@@ -20,12 +23,12 @@ import "firebase/database";
 // add recipe
 
 export const addRecipe = recipe => ({
-  type: "ADD_RECIPE",
+  type: actions.ADD_RECIPE,
   recipe
 });
 
 export const startAddRecipe = (recipeData = {}) => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const uid = getState().auth.uid;
     const {
       title = "",
@@ -49,79 +52,91 @@ export const startAddRecipe = (recipeData = {}) => {
       ingredients
     };
 
-    return db
-      .ref(`recipes`)
-      .push(recipe)
-      .then(ref => {
-        dispatch(
-          addRecipe({
-            id: ref.key,
-            ...recipe
-          })
-        );
-      });
+    await trackPromise(
+      db
+        .ref(`recipes`)
+        .push(recipe)
+        .then(ref => {
+          dispatch(
+            addRecipe({
+              id: ref.key,
+              ...recipe
+            })
+          );
+        })
+    );
   };
 };
 
 // remove recipe
 
 export const removeRecipe = ({ id } = {}) => ({
-  type: "REMOVE_RECIPE",
+  type: actions.REMOVE_RECIPE,
   id
 });
 
 export const startRemoveRecipe = ({ id } = {}) => {
-  return (dispatch, getState) => {
-    // const uid = getState().auth.uid;
+  return async (dispatch, getState) => {
     // read data once
-    return db
-      .ref(`recipes/${id}`)
-      .remove()
-      .then(() => {
-        dispatch(removeRecipe({ id }));
-      })
-      .catch(e => {
-        console.log("Error!", e);
-      });
+    await trackPromise(
+      db
+        .ref(`recipes/${id}`)
+        .remove()
+        .then(() => dispatch(removeRecipe({ id })))
+        .catch(error => console.log("Error - startRemoveRecipe", error))
+    );
   };
 };
 
 // edit recipe
 
 export const editRecipe = (id, updates) => ({
-  type: "EDIT_RECIPE",
+  type: actions.EDIT_RECIPE,
   id,
   updates
 });
 
 export const startEditRecipe = (id, updates) => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const uid = getState().auth.uid;
-    return db
+
+    await db
       .ref(`recipes/${id}`)
       .update(updates)
       .then(() => {
         dispatch(editRecipe(id, updates));
       })
-      .catch(e => {
-        console.log("Error!", e);
-      });
+      .catch(error => console.log("Error - startEditRecipe", error));
   };
 };
 
 // set recipes
 export const setRecipes = recipes => ({
-  type: "SET_RECIPES",
+  type: actions.SET_RECIPES,
   recipes
 });
 
 // async func that will eventually dispatch 'setRecipes'
 export const startSetRecipes = () => {
   const recipesFromDB = [];
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
+    const snapshot = await trackPromise(db.ref(`recipes`).once("value"));
+
+    if (snapshot) {
+      snapshot.forEach(child => {
+        recipesFromDB.push({
+          id: child.key,
+          ...child.val()
+        });
+      });
+
+      dispatch(setRecipes(recipesFromDB));
+    } else {
+      console.log("Error startSetRecipes");
+    }
     // const uid = getState().auth.uid;
     // read data once
-    return db
+    /* return db
       .ref(`recipes`)
       .once("value")
       .then(snapshot => {
@@ -137,6 +152,6 @@ export const startSetRecipes = () => {
       })
       .catch(e => {
         console.log("Error!", e);
-      });
+      }); */
   };
 };

@@ -1,10 +1,12 @@
+import * as actions from "../actions/actionTypes";
+
 export default (state = {}, action) => {
   switch (action.type) {
-    case "LOGIN":
+    case actions.LOGIN:
       return {
         uid: action.uid
       };
-    case "LOGOUT":
+    case actions.LOGOUT:
       return {};
     default:
       return state;
