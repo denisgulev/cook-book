@@ -1,8 +1,8 @@
 .text-input {
   border: 1px solid #cacccd;
-  font-size: $font-size-large;
+  font-size: $font-size-small;
   font-weight: 300;
-  height: 50px;
+  height: $xl-size;
   padding: $s-size;
 }
 
@@ -15,4 +15,23 @@
   @extend .text-input;
   height: 10rem;
   resize: vertical;
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: $bp-sm) {
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: $bp-md) {
+  .text-input {
+    font-size: $font-size-large;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: $bp-ld) {
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: $bp-xl) {
 }

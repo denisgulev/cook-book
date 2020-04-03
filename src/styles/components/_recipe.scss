@@ -3,15 +3,17 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: $s-size;
 
   &__content {
     background-color: $off-white;
-    max-height: 100%;
-    width: 60%;
   }
 
   &__description {
-    height: 130px;
+    align-items: left;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: $s-size;
     & span {
       color: rgb(109, 109, 109);
       font-family: Arial, Helvetica, sans-serif;
@@ -36,15 +38,15 @@
 
   &__ingredients {
     background-color: #acacac;
-    padding: 1em;
+    padding: $xs-size;
     & > ul {
-      border-left: 0.4rem solid red;
+      border-left: 0.4rem solid $red;
       background-color: #f1f1f1;
-      padding: 0.8em 1.3em;
+      padding: $xs-size $s-size;
     }
     & span {
       color: white;
-      font-size: 25px;
+      font-size: $font-size-small;
       font-family: Arial, Helvetica, sans-serif;
       font-weight: bold;
       text-transform: uppercase;
@@ -52,13 +54,62 @@
   }
 
   &__preparation {
-    height: 500px;
-    padding: 1.3rem;
+    padding: $s-size;
     > span {
-      font-size: 20px;
+      font-size: $font-size-small;
       font-weight: bold;
       font-family: Arial, Helvetica, sans-serif;
       text-transform: uppercase;
     }
   }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: $bp-sm) {
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: $bp-md + 1) {
+  .recipe {
+    padding: $m-size;
+    &__content {
+      background-color: $off-white;
+      width: 70%;
+    }
+
+    &__description {
+      align-items: center;
+      flex-direction: row;
+      padding-bottom: 0;
+    }
+
+    &__image {
+      > img {
+        height: auto;
+        max-width: 100%;
+      }
+    }
+
+    &__ingredients {
+      padding: $s-size;
+      & span {
+        font-size: $font-size-large;
+      }
+    }
+
+    &__preparation {
+      padding: $m-size;
+      > span {
+        font-size: $font-size-large;
+      }
+    }
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: $bp-ld) {
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: $bp-xl) {
 }

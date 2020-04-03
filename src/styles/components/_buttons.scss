@@ -3,7 +3,7 @@
   border: none;
   color: white;
   display: inline-block;
-  font-size: $font-size-large;
+  font-size: $font-size-small;
   font-weight: 300;
   line-height: 1;
   padding: $s-size;
@@ -15,7 +15,7 @@
   border: none;
   color: white;
   display: inline-block;
-  font-size: $font-size-large;
+  font-size: $font-size-small;
   font-weight: 300;
   line-height: 1;
   padding: $s-size;
@@ -36,9 +36,39 @@
   background: none;
 }
 
+.button--danger {
+  background: $dark-red;
+  margin-left: $m-size;
+  &:hover {
+    background: $red;
+  }
+}
+
 .button--secondary {
   background: $grey;
   &:hover {
     background: $grey2;
   }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: $bp-sm) {
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: $bp-md + 1) {
+  .button {
+    font-size: $font-size-large;
+  }
+  .green {
+    font-size: $font-size-large;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: $bp-ld) {
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: $bp-xl) {
 }

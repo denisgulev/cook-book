@@ -11,11 +11,12 @@
 /* DROPDOWN CATEGORY */
 .dropbtn {
   background-color: $blue2;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
   border: none;
+  color: white;
   cursor: pointer;
+  font-size: $font-size-small;
+  height: $xl-size;
+  padding: $s-size;
 }
 
 .dropdown {
@@ -27,16 +28,16 @@
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
 .dropdown-content span {
   color: black;
-  padding: 12px 16px;
-  text-decoration: none;
   display: block;
+  font-size: $font-size-small;
+  padding: $xs-size $s-size;
+  text-decoration: none;
 }
 
 .dropdown-content span:hover {
@@ -53,12 +54,39 @@
 }
 
 /* MEDIA QUERIES */
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: $bp-sm) {
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: $bp-md + 1) {
+  .dropbtn {
+    font-size: $font-size-large;
+  }
+
+  .dropdown-content {
+    min-width: 160px;
+  }
+
+  .dropdown-content span {
+    font-size: $font-size-large;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: $bp-ld) {
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: $bp-xl) {
+}
 /* 
 	##Device = Most of the Smartphones Mobiles (Portrait)
 	##Screen = B/w 320px to 479px
 */
 @media (min-width: 320px) and (max-width: 480px) {
-  .input-group__item input[type='text'] {
+  /* .input-group__item input[type='text'] {
     width: 100%;
   }
   .input-group {
@@ -68,35 +96,35 @@
   }
   .input-group__item {
     margin-right: 0;
-  }
+  } */
 }
 /* 
   ##Device = Low Resolution Tablets, Mobiles (Landscape)
   ##Screen = B/w 481px to 767px
 */
 @media (min-width: 481px) and (max-width: 767px) {
-  .input-group {
+  /* .input-group {
     display: flex;
     flex-direction: column;
     margin-bottom: $m-size;
   }
   .input-group__item {
     margin-right: 0;
-  }
+  } */
 }
 /* 
 	##Device = Tablets, Ipads (portrait)
 	##Screen = B/w 768px to 1024px
 */
 @media (min-width: 768px) and (max-width: 1024px) {
-  .input-group {
+  /* .input-group {
     display: flex;
     flex-direction: column;
     margin-bottom: $m-size;
   }
   .input-group__item {
     margin-right: 0;
-  }
+  } */
 }
 /* 
 	##Device = Desktops

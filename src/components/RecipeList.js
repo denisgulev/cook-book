@@ -7,9 +7,7 @@ export const RecipeList = props => (
   <div className="content-container">
     <div className="list-body">
       {props.recipes.length === 0 ? (
-        <div className="list-item list-item--message">
-          <span>Nessuna ricetta</span>
-        </div>
+        <span>Nessuna ricetta</span>
       ) : (
         props.recipes.map(recipe => {
           return <RecipeListItem key={recipe.id} {...recipe} />;

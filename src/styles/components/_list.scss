@@ -1,6 +1,7 @@
 .list-body {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   margin-bottom: $l-size;
   padding: $s-size 0 $s-size 0;
 }
@@ -11,18 +12,14 @@
   color: $dark-grey;
   display: flex;
   flex-direction: column;
-  height: 360px;
-  margin-right: $s-size;
+  height: 280px;
+  margin-right: 0;
   margin-bottom: $s-size;
-  width: 310px;
+  width: 360px;
   padding: 0;
   position: relative;
   text-decoration: none;
   background: $off-white;
-}
-
-.list-item:last-child {
-  margin-right: 0;
 }
 
 .list-item--message {
@@ -51,13 +48,22 @@
   bottom: 0;
   display: flex;
   justify-content: space-between;
+  height: 100px;
   left: 0;
-  padding: 8.5px;
+  padding: $m-size;
   position: absolute;
   width: 100%;
 }
 
+.list-item__heading {
+  align-items: left;
+  display: flex;
+  flex-direction: column;
+}
+
 .list-item__title {
+  font-size: $font-size-large;
+  font-weight: bold;
   margin: 0;
   word-break: break-all;
 }
@@ -68,53 +74,23 @@
 }
 
 /* MEDIA QUERIES */
-/* 
-	##Device = Most of the Smartphones Mobiles (Portrait)
-	##Screen = B/w 320px to 479px
-*/
-@media (min-width: 320px) and (max-width: 480px) {
-  .list-body {
-    justify-content: center;
-  }
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: $bp-sm) {
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: $bp-md) {
   .list-item {
-    margin-right: 0;
-    width: 360px;
+    margin-right: $s-size;
+    width: 310px;
   }
 }
-/* 
-  ##Device = Low Resolution Tablets, Mobiles (Landscape)
-  ##Screen = B/w 481px to 767px
-*/
-@media (min-width: 481px) and (max-width: 767px) {
-  .list-body {
-    justify-content: center;
-  }
-  .list-item {
-    width: 360px;
-  }
+
+// Large devices (desktops, 992px and up)
+@media (min-width: $bp-ld) {
 }
-/* 
-	##Device = Tablets, Ipads (portrait)
-	##Screen = B/w 768px to 1024px
-*/
-@media (min-width: 768px) and (max-width: 1024px) {
-  .list-body {
-    justify-content: space-around;
-  }
-}
-/* 
-	##Device = Laptops, Desktops
-	##Screen = B/w 1025px to 1280px
-*/
-@media (min-width: 1025px) and (max-width: 1280px) {
-  .list-body {
-    justify-content: center;
-  }
-}
-/* 
-	##Device = Desktops
-	##Screen = 1281px to higher resolution desktops
-*/
-@media (min-width: 1281px) {
-  //CSS
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: $bp-xl) {
 }

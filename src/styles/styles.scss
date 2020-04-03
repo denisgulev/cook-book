@@ -1,4 +1,5 @@
-@import "./base/settings";
+@import "./base/variables";
+@import "./base/breakpoints";
 @import "./base/base";
 @import "./components/box-layout";
 @import "./components/buttons";
@@ -10,6 +11,5 @@
 @import "./components/form";
 @import "./components/visibility";
 @import "./components/list";
-@import "./components/loader";
 @import "./components/modal";
 @import "./components/recipe";

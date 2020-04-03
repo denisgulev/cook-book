@@ -1,14 +1,17 @@
 .page-header {
   background: $off-white;
-  padding: $l-size 0;
+  padding: $m-size 0;
 }
 
 .page-header__content {
   align-items: center;
-  display: grid;
-  grid-template-columns: 8fr 1fr 1fr;
-  grid-column-gap: 1rem;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.page-header__info {
+  font-size: $font-size-small;
 }
 
 .page-header__actions {
@@ -29,4 +32,32 @@
   span {
     font-weight: bold;
   }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: $bp-sm) {
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: $bp-md) {
+  .page-header__content {
+    flex-direction: row;
+  }
+  .page-header {
+    padding: $l-size 0;
+  }
+  .page-header__actions {
+    margin-top: 0;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: $bp-ld) {
+  .page-header__info {
+    font-size: $font-size-large;
+  }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: $bp-xl) {
 }

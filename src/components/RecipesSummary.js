@@ -3,11 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import selectRecipes from "../selectors/recipes";
 
-const RecipesSummary = ({
-  visibleRecipesCount,
-  totalRecipesCount,
-  isAuthenticated: isAuthenticated
-}) => {
+const RecipesSummary = ({ visibleRecipesCount, totalRecipesCount, isAuthenticated: isAuthenticated }) => {
   const recipeWord = visibleRecipesCount === 1 ? "recipe" : "recipes";
 
   return (
@@ -15,16 +11,13 @@ const RecipesSummary = ({
       <div className="content-container page-header__content">
         <div className="page-header__info">
           <h1 className="page-header__title">
-            Viewing <span>{visibleRecipesCount}</span> {recipeWord}.
+            Viewing <span>{visibleRecipesCount}</span>/<span>{totalRecipesCount}</span> {recipeWord}.
           </h1>
-          <h4 className="page-header__subtitle">
-            Total number of {recipeWord}: <span>{totalRecipesCount}</span>
-          </h4>
         </div>
         {isAuthenticated ? (
           <div className="page-header__actions">
             <button className="button">
-              <Link to="/create">Add Recipe</Link>
+              <Link to="/create">Nuova Ricetta</Link>
             </button>
           </div>
         ) : (

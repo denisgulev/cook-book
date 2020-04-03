@@ -1,6 +1,6 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { setTextFilter, setCategory } from '../actions/filters';
+import React from "react";
+import { connect } from "react-redux";
+import { setTextFilter, setCategory } from "../actions/filters";
 
 export class RecipeListFilters extends React.Component {
   onTextChange = e => {
@@ -15,35 +15,30 @@ export class RecipeListFilters extends React.Component {
   };
 
   render() {
-    const categories = ['tutte', 'antipasti', 'primi', 'secondi', 'dessert'];
+    const categories = ["tutte", "antipasti", "primi", "secondi", "dessert"];
 
     return (
-      <div className="header__filter">
-        <div className="input-group">
-          <div className="input-group__item">
-            <div className="dropdown">
-              <button className="dropbtn">Categoria</button>
-              <div
-                className="dropdown-content"
-                onChange={this.onCategoryChange}
-              >
-                {categories.map(c => (
-                  <span onClick={this.onCategoryClick} key={c + '_cat'}>
-                    {c.toUpperCase()}
-                  </span>
-                ))}
-              </div>
+      <div className="input-group">
+        <div className="input-group__item">
+          <div className="dropdown">
+            <button className="dropbtn">Categoria</button>
+            <div className="dropdown-content">
+              {categories.map(c => (
+                <span onClick={this.onCategoryClick} key={c + "_cat"}>
+                  {c.toUpperCase()}
+                </span>
+              ))}
             </div>
           </div>
-          <div className="input-group__item">
-            <input
-              type="text"
-              className="text-input"
-              placeholder="Cerca..."
-              value={this.props.filters.text}
-              onChange={this.onTextChange}
-            />
-          </div>
+        </div>
+        <div className="input-group__item">
+          <input
+            type="text"
+            className="text-input"
+            placeholder="Cerca..."
+            value={this.props.filters.text}
+            onChange={this.onTextChange}
+          />
         </div>
       </div>
     );

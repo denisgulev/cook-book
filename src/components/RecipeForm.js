@@ -1,26 +1,24 @@
-import React from 'react';
-import moment from 'moment';
-import { storageRef } from '../firebase/firebase';
+import React from "react";
+import moment from "moment";
+import { storageRef } from "../firebase/firebase";
 
 export default class RecipeForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      title: props.recipe ? props.recipe.title : '',
-      description: props.recipe ? props.recipe.description : '',
-      category: props.recipe ? props.recipe.category : '',
+      title: props.recipe ? props.recipe.title : "",
+      description: props.recipe ? props.recipe.description : "",
+      category: props.recipe ? props.recipe.category : "",
       createdAt: moment(),
-      imageUrl: props.recipe ? props.recipe.imageUrl : '',
-      imageName: '',
-      urlLocal: '',
+      imageUrl: props.recipe ? props.recipe.imageUrl : "",
+      imageName: "",
+      urlLocal: "",
       progress: 0,
-      note: props.recipe ? props.recipe.note : '',
+      note: props.recipe ? props.recipe.note : "",
       calendarFocused: false,
-      error: '',
-      ingredients: props.recipe
-        ? props.recipe.ingredients
-        : [{ name: '', qty: '', unit: '' }]
+      error: "",
+      ingredients: props.recipe ? props.recipe.ingredients : [{ name: "", qty: "", unit: "" }]
     };
   }
 
@@ -45,7 +43,7 @@ export default class RecipeForm extends React.Component {
   };
 
   onImageChange = e => {
-    console.log('oonImageChange', e.target.files[0]);
+    //console.log('onImageChange', e.target.files[0]);
     this.setState({
       imageUrl: e.target.files[0],
       imageName: e.target.files[0].name,
@@ -59,7 +57,7 @@ export default class RecipeForm extends React.Component {
       var reader = new FileReader();
 
       reader.onload = function(e) {
-        document.querySelector('img').src = e.target.result;
+        document.querySelector("img").src = e.target.result;
       };
       reader.readAsDataURL(file);
     }
@@ -75,10 +73,10 @@ export default class RecipeForm extends React.Component {
 
     if (!this.state.description || !this.state.title) {
       // set error - 'Please provide description and title'
-      this.setState(() => ({ error: 'Please provide description and title.' }));
+      this.setState(() => ({ error: "Please provide description and title." }));
     } else {
       // Clear error
-      this.setState(() => ({ error: '' }));
+      this.setState(() => ({ error: "" }));
       this.props.onSubmit({
         title: this.state.title,
         description: this.state.description,
@@ -96,26 +94,22 @@ export default class RecipeForm extends React.Component {
     //console.log('started uploading', this.state.imageUrl, this.props.recipe);
 
     const metadata = {
-      contentType: 'image/jpeg'
+      contentType: "image/jpeg"
     };
 
     let uploadTask;
 
     if (this.state.title) {
-      uploadTask = storageRef
-        .child(`image/${this.state.title}/${this.state.imageName}`)
-        .put(this.state.imageUrl, metadata);
+      uploadTask = storageRef.child(`image/${this.state.title}/${this.state.imageName}`).put(this.state.imageUrl, metadata);
     } else {
-      uploadTask = storageRef
-        .child(`image/temp/${this.state.imageName}`)
-        .put(this.state.imageUrl, metadata);
+      uploadTask = storageRef.child(`image/temp/${this.state.imageName}`).put(this.state.imageUrl, metadata);
     }
 
     uploadTask.on(
-      'state_changed',
+      "state_changed",
       snapshot => {
         let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Progress ' + progress + '%');
+        console.log("Progress " + progress + "%");
         this.setState({
           progress
         });
@@ -141,9 +135,9 @@ export default class RecipeForm extends React.Component {
       ingredients: [
         ...this.state.ingredients,
         {
-          name: '',
-          qty: '',
-          unit: ''
+          name: "",
+          qty: "",
+          unit: ""
         }
       ]
     }));
@@ -155,7 +149,7 @@ export default class RecipeForm extends React.Component {
     let currIngredients = this.state.ingredients;
 
     let tempIngredients = currIngredients.filter((ingredient, index) => {
-      return index != e.target.getAttribute('data-remove-id');
+      return index != e.target.getAttribute("data-remove-id");
     });
 
     this.setState(() => ({
@@ -169,9 +163,7 @@ export default class RecipeForm extends React.Component {
 
     const currIngredients = this.state.ingredients;
 
-    currIngredients[e.target.getAttribute('data-index')][
-      changedName
-    ] = changedValue;
+    currIngredients[e.target.getAttribute("data-index")][changedName] = changedValue;
 
     this.setState(() => ({
       ingredients: [...currIngredients]
@@ -203,12 +195,7 @@ export default class RecipeForm extends React.Component {
           onChange={this.onDescriptionChange}
         />
         <label htmlFor="category">Categoria</label>
-        <select
-          id="category"
-          className="text-input"
-          value={this.state.category}
-          onChange={this.onCategoryChange}
-        >
+        <select id="category" className="text-input" value={this.state.category} onChange={this.onCategoryChange}>
           <option value="all">Generica</option>
           <option value="antipasti">Antipasti</option>
           <option value="primi">Primi</option>
@@ -225,72 +212,68 @@ export default class RecipeForm extends React.Component {
         ></textarea>
         <label htmlFor="image">Immagine</label>
         <input id="image" type="file" onChange={this.onImageChange} />
-        <img
-          src={
-            this.state.imageUrl
-              ? this.state.imageUrl
-              : 'https://via.placeholder.com/400x300'
-          }
-          alt="Uploaded Image"
-          id="imageToUpload"
-          height="300"
-          width="400"
-        />
+        {this.state.imageUrl ? <img src={this.state.imageUrl} alt="Uploaded Image" id="imageToUpload" /> : ""}
         <button
-          className={this.state.progress !== 100 ? 'button' : 'green'}
+          className={this.state.progress !== 100 ? "button" : "green"}
           onClick={this.handleUpload}
           disabled={this.state.progress == 100}
         >
-          {this.state.progress !== 100 ? 'Carica' : 'Immagine caricata'}
+          {this.state.progress !== 100 ? "Carica" : "Immagine caricata"}
         </button>
         <fieldset>
           <legend>Ingredienti</legend>
           <button onClick={this.addIngredient}>Aggiungi nuovo</button>
           <br />
           <br />
-          {/*console.log('ingredients ', this.state.ingredients)*/}
-          {ingredients
-            ? ingredients.map(({ name, qty, unit }, index) => {
-                //console.log('ID ', index);
-                let ing = `id_${index}`;
-                return (
-                  <div key={ing}>
-                    name:{' '}
-                    <input
-                      data-index={index}
-                      name="name"
-                      onChange={this.onIngredientChange}
-                      type="text"
-                      value={name !== '' ? name : ''}
-                    />{' '}
-                    qty:{' '}
-                    <input
-                      data-index={index}
-                      name="qty"
-                      onChange={this.onIngredientChange}
-                      type="number"
-                      value={qty != 0 ? qty : ''}
-                    />{' '}
-                    unit:{' '}
-                    <input
-                      data-index={index}
-                      name="unit"
-                      onChange={this.onIngredientChange}
-                      type="text"
-                      value={unit !== '' ? unit : ''}
-                    />
-                    <button
-                      onClick={this.removeIngredient}
-                      data-remove-id={index}
-                    >
-                      Rimuovi
-                    </button>
-                    <br />
-                    <br />
-                  </div>
-                );
-              })
-            : ''}
+          <div className="form__ingredients">
+            {/*console.log('ingredients ', this.state.ingredients)*/}
+            {ingredients
+              ? ingredients.map(({ name, qty, unit }, index) => {
+                  //console.log('ID ', index);
+                  let ing = `id_${index}`;
+                  return (
+                    <div key={ing}>
+                      <div>
+                        <span>nome: </span>
+                        <input
+                          data-index={index}
+                          name="name"
+                          onChange={this.onIngredientChange}
+                          type="text"
+                          value={name !== "" ? name : ""}
+                        />{" "}
+                      </div>
+                      <div>
+                        <span>quantità: </span>
+                        <input
+                          data-index={index}
+                          name="qty"
+                          onChange={this.onIngredientChange}
+                          type="number"
+                          value={qty != 0 ? qty : ""}
+                        />{" "}
+                      </div>
+                      <div>
+                        <span>g/ml: </span>
+                        <input
+                          data-index={index}
+                          name="unit"
+                          onChange={this.onIngredientChange}
+                          type="text"
+                          value={unit !== "" ? unit : ""}
+                        />
+                      </div>
+
+                      <button onClick={this.removeIngredient} data-remove-id={index}>
+                        Rimuovi
+                      </button>
+                      <br />
+                      <br />
+                    </div>
+                  );
+                })
+              : ""}
+          </div>
         </fieldset>
         <div>
           <button className="button">Salva Ricetta</button>
