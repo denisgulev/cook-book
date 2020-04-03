@@ -1,14 +1,14 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { startLogin, startLogout } from '../actions/auth';
+import React from "react";
+import { connect } from "react-redux";
+import { startLogin, startLogout } from "../actions/auth";
 
 export class LoginPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: '',
-      password: ''
+      email: "",
+      password: ""
     };
   }
 
@@ -31,44 +31,44 @@ export class LoginPage extends React.Component {
   onSubmit = e => {
     // prevent default page refresh
     e.preventDefault();
-    this.props.startLogin(this.state.email, this.state.password);
+    if (!this.props.isAuthenticated) this.props.startLogin(this.state.email, this.state.password);
+    else this.props.startLogout();
   };
 
   render() {
     return (
       <div className="box-layout">
-        <div className="box-layout__box">
-          {!this.props.isAuthenticated ? (
-            <form onSubmit={this.onSubmit}>
-              <h1 className="box-layout__title">Ricettario</h1>
-              <label htmlFor="email">Email</label>
-              <input
-                id="email"
-                type="text"
-                value={this.state.email}
-                className="text-input"
-                value={this.state.email}
-                onChange={this.onEmailChange}
-                required
-              />
-              <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                type="password"
-                value={this.state.password}
-                className="text-input"
-                value={this.state.password}
-                onChange={this.onPasswordChange}
-                required
-              />
-              <button className="button">Login</button>
-            </form>
-          ) : (
-            <button className="button" onClick={this.props.startLogout}>
-              Logout
-            </button>
-          )}
-        </div>
+        {!this.props.isAuthenticated ? (
+          <form onSubmit={this.onSubmit} className="box-layout__box-login">
+            <h1 className="box-layout__title">Ricettario</h1>
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="text"
+              value={this.state.email}
+              className="text-input"
+              value={this.state.email}
+              onChange={this.onEmailChange}
+              required
+            />
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value={this.state.password}
+              className="text-input"
+              value={this.state.password}
+              onChange={this.onPasswordChange}
+              required
+            />
+            <br />
+            <button className="button">Login</button>
+          </form>
+        ) : (
+          <form onSubmit={this.onSubmit} className="box-layout__box-login">
+            <button className="button">Logout</button>
+          </form>
+        )}
       </div>
     );
   }
