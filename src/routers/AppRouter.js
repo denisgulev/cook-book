@@ -1,6 +1,6 @@
 import React from "react";
 import { Router, Route, Switch } from "react-router-dom";
-import createHistory from "history/createBrowserHistory";
+import { createBrowserHistory } from "history";
 import RecipeDashboardPage from "../components/RecipeDashboardPage";
 import EditRecipePage from "../components/EditRecipePage";
 import AddRecipePage from "../components/AddRecipePage";
@@ -12,7 +12,7 @@ import Recipe from "../components/Recipe";
 import Loader from "react-promise-loader";
 import { usePromiseTracker } from "react-promise-tracker";
 
-export const history = createHistory();
+export const history = createBrowserHistory();
 
 const AppRouter = () => (
   <Router history={history}>
