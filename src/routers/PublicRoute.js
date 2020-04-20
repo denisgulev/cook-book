@@ -1,16 +1,18 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export const PublicRoute = ({ component: Component, path: newPath }) => (
   <Route
     path={newPath}
     component={props => (
-      <div>
+      <Fragment>
         <Header />
-        <Component {...props} />
-      </div>
+				<Component {...props} />
+				<Footer />
+      </Fragment>
     )}
   />
 );

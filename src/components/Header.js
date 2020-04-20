@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 
 import RecipeListFilters from "./RecipeListFilters";
 
@@ -17,4 +16,4 @@ export const Header = () => (
   </header>
 );
 
-export default connect()(Header);
+export default Header;

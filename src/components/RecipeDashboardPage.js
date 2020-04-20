@@ -1,13 +1,13 @@
-import React from "react";
+import React, { Fragment } from "react";
 import RecipeList from "./RecipeList";
 import RecipeListFilters from "./RecipeListFilters";
 import RecipesSummary from "./RecipesSummary";
 
 const RecipeDashboardPage = () => (
-  <div>
+  <Fragment>
     <RecipesSummary />
     <RecipeList />
-  </div>
+  </Fragment>
 );
 
 export default RecipeDashboardPage;

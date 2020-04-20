@@ -32,9 +32,12 @@ export const startAddRecipe = (recipeData = {}) => {
     const uid = getState().auth.uid;
     const {
       title = "",
-      description = "",
+			description = "",
+			prepTime = "",
+			difficulty = "",
       category = "",
-      note = "",
+			note = "",
+			preparation = "",
       createdAt = 1000,
       createdBy = uid,
       imageUrl = "",
@@ -44,8 +47,11 @@ export const startAddRecipe = (recipeData = {}) => {
     const recipe = {
       title,
       description,
+			prepTime,
+			difficulty,
       category,
-      note,
+			note,
+			preparation,
       createdAt,
       imageUrl,
       createdBy,

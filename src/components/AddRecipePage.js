@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import RecipeForm from './RecipeForm';
 import { connect } from 'react-redux';
 import { startAddRecipe } from '../actions/recipes';
@@ -11,7 +11,7 @@ export class AddRecipePage extends React.Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         <div className="page-header">
           <div className="content-container">
             <h1 className="page-header__title">Add Recipe</h1>
@@ -20,7 +20,7 @@ export class AddRecipePage extends React.Component {
         <div className="content-container recipe">
           <RecipeForm onSubmit={this.onSubmit} />
         </div>
-      </div>
+      </Fragment>
     );
   }
 }

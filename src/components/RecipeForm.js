@@ -8,14 +8,17 @@ export default class RecipeForm extends React.Component {
 
     this.state = {
       title: props.recipe ? props.recipe.title : "",
-      description: props.recipe ? props.recipe.description : "",
+			description: props.recipe ? props.recipe.description : "",
+			prepTime: props.recipe ? props.recipe.prepTime : "",
+			difficulty: props.difficulty ? props.recipe.difficulty : "",
       category: props.recipe ? props.recipe.category : "",
       createdAt: moment(),
       imageUrl: props.recipe ? props.recipe.imageUrl : "",
       imageName: "",
       urlLocal: "",
       progress: 0,
-      note: props.recipe ? props.recipe.note : "",
+			note: props.recipe ? props.recipe.note : "",
+			preparation: props.recipe ? props.recipe.preparation : "",
       calendarFocused: false,
       error: "",
       ingredients: props.recipe ? props.recipe.ingredients : [{ name: "", qty: "", unit: "" }]
@@ -30,7 +33,17 @@ export default class RecipeForm extends React.Component {
   onDescriptionChange = e => {
     const description = e.target.value;
     this.setState(() => ({ description }));
-  };
+	};
+	
+	onPrepTimeChange = e => {
+		const prepTime = e.target.value;
+		this.setState(() => ({ prepTime }));
+	}
+
+	onDifficultyChange = e => {
+		const difficulty = e.target.value;
+		this.setState(() => ({ difficulty }));
+	}
 
   onCategoryChange = e => {
     const category = e.target.value;
@@ -61,7 +74,12 @@ export default class RecipeForm extends React.Component {
       };
       reader.readAsDataURL(file);
     }
-  };
+	};
+	
+	onPreparationChange = e => {
+		const preparation = e.target.value;
+		this.setState(() => ({ preparation }));
+	}
 
   onFocusChange = ({ focused }) => {
     this.setState(() => ({ calendarFocused: focused }));
@@ -193,6 +211,24 @@ export default class RecipeForm extends React.Component {
           className="text-input"
           value={this.state.description}
           onChange={this.onDescriptionChange}
+				/>
+				<label htmlFor="prepTime">Tempo di preparazione (<b>in minuti</b>)</label>
+        <input
+          id="prepTime"
+          type="number"
+          placeholder="Tempo di preparazione"
+          className="text-input"
+          value={this.state.prepTime}
+          onChange={this.onPrepTimeChange}
+				/>
+				<label htmlFor="difficulty">Difficoltà</label>
+        <input
+          id="difficulty"
+          type="text"
+          placeholder="Difficcoltà"
+          className="text-input"
+          value={this.state.difficulty}
+          onChange={this.onDifficultyChange}
         />
         <label htmlFor="category">Categoria</label>
         <select id="category" className="text-input" value={this.state.category} onChange={this.onCategoryChange}>
@@ -219,7 +255,15 @@ export default class RecipeForm extends React.Component {
           disabled={this.state.progress == 100}
         >
           {this.state.progress !== 100 ? "Carica" : "Immagine caricata"}
-        </button>
+				</button>
+        <label htmlFor="preparation">Preparazione</label>
+        <textarea
+          id="preparation"
+          placeholder="Descrivi la preparazione"
+          className="textarea"
+          value={this.state.preparation}
+          onChange={this.onPreparationChange}
+        ></textarea>
         <fieldset>
           <legend>Ingredienti</legend>
           <button onClick={this.addIngredient}>Aggiungi nuovo</button>
@@ -235,7 +279,8 @@ export default class RecipeForm extends React.Component {
                     <div key={ing}>
                       <div>
                         <span>nome: </span>
-                        <input
+												<input
+													className="forum__ingredrients__input"
                           data-index={index}
                           name="name"
                           onChange={this.onIngredientChange}
@@ -246,6 +291,7 @@ export default class RecipeForm extends React.Component {
                       <div>
                         <span>quantità: </span>
                         <input
+													className="forum__ingredrients__input"
                           data-index={index}
                           name="qty"
                           onChange={this.onIngredientChange}
@@ -256,6 +302,7 @@ export default class RecipeForm extends React.Component {
                       <div>
                         <span>g/ml: </span>
                         <input
+													className="forum__ingredrients__input"
                           data-index={index}
                           name="unit"
                           onChange={this.onIngredientChange}
