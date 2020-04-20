@@ -1,7 +1,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 100%;
   > * {
     margin-bottom: $m-size;
   }
@@ -24,7 +24,8 @@ img {
 }
 
 .form__ingredients > div > div {
-  display: flex;
+	display: flex;
+	flex-direction: column;
   justify-content: space-between;
   margin-bottom: 4px;
 }
@@ -37,19 +38,25 @@ img {
 
 // Medium devices (tablets, 768px and up)
 @media (min-width: $bp-md - 1) {
+	.form {
+		width: 60%;
+	}
   img {
     width: 400px;
     height: 300px;
   }
   .form__ingredients > div {
     align-items: center;
-    display: flex;
+		display: flex;
     justify-content: space-between;
   }
   .form__ingredients > div > div {
     margin-bottom: 0;
     margin-right: 2px;
   }
+	.forum__ingredrients__input {
+		width: 90px;
+	}
 }
 
 // Large devices (desktops, 992px and up)
@@ -58,4 +65,10 @@ img {
 
 // Extra large devices (large desktops, 1200px and up)
 @media (min-width: $bp-xl) {
+	.form__ingredients > div > div {
+    flex-direction: row;
+  }
+	.forum__ingredrients__input {
+		width: 150px;
+	}
 }
