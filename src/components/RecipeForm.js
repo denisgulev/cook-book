@@ -97,10 +97,13 @@ export default class RecipeForm extends React.Component {
       this.setState(() => ({ error: "" }));
       this.props.onSubmit({
         title: this.state.title,
-        description: this.state.description,
+				description: this.state.description,
+				prepTime: this.state.prepTime,
+				difficulty: this.state.difficulty,
         category: this.state.category,
         createdAt: this.state.createdAt.valueOf(),
-        note: this.state.note,
+				note: this.state.note,
+				preparation: this.state.preparation,
         imageUrl: this.state.imageUrl,
         ingredients: this.state.ingredients
       });
