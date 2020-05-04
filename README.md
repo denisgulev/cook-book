@@ -1,4 +1,4 @@
-## SITE ON HEROKU
+## LIVE ON HEROKU
 
 https://ricettario-v1.herokuapp.com/
 
