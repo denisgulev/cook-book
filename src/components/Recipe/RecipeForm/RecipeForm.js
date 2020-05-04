@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import { storageRef } from "../firebase/firebase";
+import { storageRef } from "../../../firebase/firebase";
 
 export default class RecipeForm extends React.Component {
   constructor(props) {
@@ -192,10 +192,71 @@ export default class RecipeForm extends React.Component {
   };
 
   render() {
-    const { progress, ingredients } = this.state;
+		const { progress, ingredients } = this.state;
+		
+		let errorMessage = null;
+		if (this.state.error) {
+			errorMessage = <p className="form__error">{this.state.error}</p>
+		}
+
+		let ingredientsList = null;
+		if (ingredients) {
+			ingredientsList = (
+				ingredients.map(({ name, qty, unit }, index) => {
+					//console.log('ID ', index);
+					let ing = `id_${index}`;
+					return (
+						<div key={ing}>
+							<div>
+								<span>nome: </span>
+								<input
+									className="forum__ingredrients__input"
+									data-index={index}
+									name="name"
+									onChange={this.onIngredientChange}
+									type="text"
+									value={name !== "" ? name : ""}
+								/>{" "}
+							</div>
+							<div>
+								<span>quantità: </span>
+								<input
+									className="forum__ingredrients__input"
+									data-index={index}
+									name="qty"
+									onChange={this.onIngredientChange}
+									type="number"
+									value={qty != 0 ? qty : ""}
+								/>{" "}
+							</div>
+							<div>
+								<span>g/ml: </span>
+								<input
+									className="forum__ingredrients__input"
+									data-index={index}
+									name="unit"
+									onChange={this.onIngredientChange}
+									type="text"
+									value={unit !== "" ? unit : ""}
+								/>
+							</div>
+
+							<button onClick={this.removeIngredient} data-remove-id={index}>
+								Rimuovi
+							</button>
+							<br />
+							<br />
+						</div>
+					);
+				})
+			);
+		}
+
     return (
       <form className="form" onSubmit={this.onSubmit}>
-        {this.state.error && <p className="form__error">{this.state.error}</p>}
+        {
+					errorMessage
+				}
         <label htmlFor="title">Titolo</label>
         <input
           id="title"
@@ -274,55 +335,9 @@ export default class RecipeForm extends React.Component {
           <br />
           <div className="form__ingredients">
             {/*console.log('ingredients ', this.state.ingredients)*/}
-            {ingredients
-              ? ingredients.map(({ name, qty, unit }, index) => {
-                  //console.log('ID ', index);
-                  let ing = `id_${index}`;
-                  return (
-                    <div key={ing}>
-                      <div>
-                        <span>nome: </span>
-												<input
-													className="forum__ingredrients__input"
-                          data-index={index}
-                          name="name"
-                          onChange={this.onIngredientChange}
-                          type="text"
-                          value={name !== "" ? name : ""}
-                        />{" "}
-                      </div>
-                      <div>
-                        <span>quantità: </span>
-                        <input
-													className="forum__ingredrients__input"
-                          data-index={index}
-                          name="qty"
-                          onChange={this.onIngredientChange}
-                          type="number"
-                          value={qty != 0 ? qty : ""}
-                        />{" "}
-                      </div>
-                      <div>
-                        <span>g/ml: </span>
-                        <input
-													className="forum__ingredrients__input"
-                          data-index={index}
-                          name="unit"
-                          onChange={this.onIngredientChange}
-                          type="text"
-                          value={unit !== "" ? unit : ""}
-                        />
-                      </div>
-
-                      <button onClick={this.removeIngredient} data-remove-id={index}>
-                        Rimuovi
-                      </button>
-                      <br />
-                      <br />
-                    </div>
-                  );
-                })
-              : ""}
+            {
+							ingredientsList
+						}
           </div>
         </fieldset>
         <div>

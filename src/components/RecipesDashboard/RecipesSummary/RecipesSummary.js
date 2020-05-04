@@ -1,10 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import selectRecipes from "../selectors/recipes";
+import selectRecipes from "../../../selectors/recipes";
 
 const RecipesSummary = ({ visibleRecipesCount, totalRecipesCount, isAuthenticated: isAuthenticated }) => {
-  const recipeWord = visibleRecipesCount === 1 ? "recipe" : "recipes";
+	const recipeWord = visibleRecipesCount === 1 ? "recipe" : "recipes";
+	
+	let authenticatedOps = null;
+	if (isAuthenticated) {
+		authenticatedOps = (
+			<div className="page-header__actions">
+				<button className="button">
+					<Link to="/create">Nuova Ricetta</Link>
+				</button>
+			</div>
+		);
+	}
 
   return (
     <div className="page-header">
@@ -14,15 +25,9 @@ const RecipesSummary = ({ visibleRecipesCount, totalRecipesCount, isAuthenticate
             Viewing <span>{visibleRecipesCount}</span>/<span>{totalRecipesCount}</span> {recipeWord}.
           </h1>
         </div>
-        {isAuthenticated ? (
-          <div className="page-header__actions">
-            <button className="button">
-              <Link to="/create">Nuova Ricetta</Link>
-            </button>
-          </div>
-        ) : (
-          ""
-        )}
+        {
+					authenticatedOps
+				}
       </div>
     </div>
   );

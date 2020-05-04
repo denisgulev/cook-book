@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
-import RecipeForm from './RecipeForm';
+import RecipeForm from '../RecipeForm/RecipeForm';
 import { connect } from 'react-redux';
-import { startAddRecipe } from '../actions/recipes';
+import { startAddRecipe } from '../../../actions/recipes';
 
 export class AddRecipePage extends React.Component {
   onSubmit = recipe => {

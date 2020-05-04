@@ -36,39 +36,46 @@ export class LoginPage extends React.Component {
   };
 
   render() {
+
+		let accessActions = (
+			<form onSubmit={this.onSubmit} className="box-layout__box-login">
+				<button className="button">Logout</button>
+			</form>
+		);
+
+		if (!this.props.isAuthenticated) {
+			<form onSubmit={this.onSubmit} className="box-layout__box-login">
+				<h1 className="box-layout__title">Ricettario</h1>
+				<label htmlFor="email">Email</label>
+				<input
+					id="email"
+					type="text"
+					value={this.state.email}
+					className="text-input"
+					value={this.state.email}
+					onChange={this.onEmailChange}
+					required
+				/>
+				<label htmlFor="password">Password</label>
+				<input
+					id="password"
+					type="password"
+					value={this.state.password}
+					className="text-input"
+					value={this.state.password}
+					onChange={this.onPasswordChange}
+					required
+				/>
+				<br />
+				<button className="button">Login</button>
+			</form>
+		}
+
     return (
       <div className="box-layout">
-        {!this.props.isAuthenticated ? (
-          <form onSubmit={this.onSubmit} className="box-layout__box-login">
-            <h1 className="box-layout__title">Ricettario</h1>
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="text"
-              value={this.state.email}
-              className="text-input"
-              value={this.state.email}
-              onChange={this.onEmailChange}
-              required
-            />
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              value={this.state.password}
-              className="text-input"
-              value={this.state.password}
-              onChange={this.onPasswordChange}
-              required
-            />
-            <br />
-            <button className="button">Login</button>
-          </form>
-        ) : (
-          <form onSubmit={this.onSubmit} className="box-layout__box-login">
-            <button className="button">Logout</button>
-          </form>
-        )}
+        {
+					accessActions
+				}
       </div>
     );
   }

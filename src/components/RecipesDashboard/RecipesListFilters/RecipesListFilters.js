@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setTextFilter, setCategory } from "../actions/filters";
+import { setTextFilter, setCategory } from "../../../actions/filters";
 
-export class RecipeListFilters extends React.Component {
+export class RecipesListFilters extends React.Component {
   onTextChange = e => {
     // this updates the items the expense list shows
     this.props.setTextFilter(e.target.value);
@@ -55,4 +55,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 // this way the component will have access to props.filter.text
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeListFilters);
+export default connect(mapStateToProps, mapDispatchToProps)(RecipesListFilters);

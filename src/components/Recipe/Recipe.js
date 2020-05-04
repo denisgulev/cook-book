@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import ConfirmationModal from "./modals/ConfirmationModal";
-import { startRemoveRecipe } from "../actions/recipes";
+import ConfirmationModal from "../modals/ConfirmationModal";
+import { startRemoveRecipe } from "../../actions/recipes";
 
 export class Recipe extends React.Component {
   state = {
@@ -25,23 +25,40 @@ export class Recipe extends React.Component {
 
   render() {
 		const { id, title, prepTime, difficulty, imageUrl, ingredients, note, preparation } = this.props.recipe;
+
+		let authenticatedManagement = null;
+		if (this.props.isAuthenticated) {
+			authenticatedManagement = (
+				<div className="page-header__actions">
+					<button className="button">
+						<Link to={`/edit/${id}`}>Modifica</Link>
+					</button>
+					<button className="button button--danger" onClick={this.handleRemoveRequested}>
+						Elimina
+					</button>
+				</div>
+			);
+		}
+
+		let ingredientsShow = null;
+		if (ingredients) {
+			ingredientsShow = (
+				ingredients.map(({ id = 0, name, qty, unit }) => (
+					<li key={id}>
+						{name} - {qty} - {unit}
+					</li>
+				))
+			);
+		}
+
     return (
       <div>
         <div className="page-header">
           <div className="content-container page-header__content">
             <h1 className="page-header__title">Viewing Recipe</h1>
-            {this.props.isAuthenticated ? (
-              <div className="page-header__actions">
-                <button className="button">
-                  <Link to={`/edit/${id}`}>Modifica</Link>
-                </button>
-                <button className="button button--danger" onClick={this.handleRemoveRequested}>
-                  Elimina
-                </button>
-              </div>
-            ) : (
-              ""
-            )}
+            {
+							authenticatedManagement
+						}
           </div>
         </div>
         <div className="content-container recipe">
@@ -64,13 +81,9 @@ export class Recipe extends React.Component {
               <div>
                 <span>Ingredienti</span>
                 <ul>
-                  {ingredients
-                    ? ingredients.map(({ id = 0, name, qty, unit }) => (
-                        <li key={id}>
-                          {name} - {qty} - {unit}
-                        </li>
-                      ))
-                    : ""}
+                  {
+										ingredientsShow
+									}
                 </ul>
               </div>
               <div className="recipe__ingredients__note">

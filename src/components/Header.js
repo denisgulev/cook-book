@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import RecipeListFilters from "./RecipeListFilters";
+import RecipesListFilters from "./RecipesDashboard/RecipesListFilters/RecipesListFilters";
 
 export const Header = () => (
   <header className="header">
@@ -10,7 +10,7 @@ export const Header = () => (
         <Link className="header__title" to="/">
           <h1>CookBook</h1>
         </Link>
-        <RecipeListFilters />
+        <RecipesListFilters />
       </div>
     </div>
   </header>
