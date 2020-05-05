@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { startLogin, startLogout } from "../actions/auth";
 
-export class LoginPage extends React.Component {
+class LoginPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -36,7 +36,6 @@ export class LoginPage extends React.Component {
   };
 
   render() {
-
 		let accessActions = (
 			<form onSubmit={this.onSubmit} className="box-layout__box-login">
 				<button className="button">Logout</button>
@@ -44,31 +43,33 @@ export class LoginPage extends React.Component {
 		);
 
 		if (!this.props.isAuthenticated) {
-			<form onSubmit={this.onSubmit} className="box-layout__box-login">
-				<h1 className="box-layout__title">Ricettario</h1>
-				<label htmlFor="email">Email</label>
-				<input
-					id="email"
-					type="text"
-					value={this.state.email}
-					className="text-input"
-					value={this.state.email}
-					onChange={this.onEmailChange}
-					required
-				/>
-				<label htmlFor="password">Password</label>
-				<input
-					id="password"
-					type="password"
-					value={this.state.password}
-					className="text-input"
-					value={this.state.password}
-					onChange={this.onPasswordChange}
-					required
-				/>
-				<br />
-				<button className="button">Login</button>
-			</form>
+			accessActions = (
+				<form onSubmit={this.onSubmit} className="box-layout__box-login">
+					<h1 className="box-layout__title">Ricettario</h1>
+					<label htmlFor="email">Email</label>
+					<input
+						id="email"
+						type="text"
+						value={this.state.email}
+						className="text-input"
+						value={this.state.email}
+						onChange={this.onEmailChange}
+						required
+					/>
+					<label htmlFor="password">Password</label>
+					<input
+						id="password"
+						type="password"
+						value={this.state.password}
+						className="text-input"
+						value={this.state.password}
+						onChange={this.onPasswordChange}
+						required
+					/>
+					<br />
+					<button className="button">Login</button>
+				</form>
+			);
 		}
 
     return (

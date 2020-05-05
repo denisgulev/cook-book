@@ -104,12 +104,11 @@ export const editRecipe = (id, updates) => ({
 
 export const startEditRecipe = (id, updates) => {
   return async (dispatch, getState) => {
-    const uid = getState().auth.uid;
-
     await db
       .ref(`recipes/${id}`)
       .update(updates)
       .then(() => {
+				console.log('updateing for ', id)
         dispatch(editRecipe(id, updates));
       })
       .catch(error => console.log("Error - startEditRecipe", error));

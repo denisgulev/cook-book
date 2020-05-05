@@ -27,32 +27,32 @@ export default class RecipeForm extends React.Component {
 
   onTitleChange = e => {
     const title = e.target.value;
-    this.setState(() => ({ title }));
+    this.setState(({ title }));
   };
 
   onDescriptionChange = e => {
     const description = e.target.value;
-    this.setState(() => ({ description }));
+    this.setState(({ description }));
 	};
 	
 	onPrepTimeChange = e => {
 		const prepTime = e.target.value;
-		this.setState(() => ({ prepTime }));
+		this.setState(({ prepTime }));
 	}
 
 	onDifficultyChange = e => {
 		const difficulty = e.target.value;
-		this.setState(() => ({ difficulty }));
+		this.setState(({ difficulty }));
 	}
 
   onCategoryChange = e => {
     const category = e.target.value;
-    this.setState(() => ({ category }));
+    this.setState(({ category }));
   };
 
   onNoteChange = e => {
     const note = e.target.value;
-    this.setState(() => ({ note }));
+    this.setState(({ note }));
   };
 
   onImageChange = e => {
@@ -78,11 +78,11 @@ export default class RecipeForm extends React.Component {
 	
 	onPreparationChange = e => {
 		const preparation = e.target.value;
-		this.setState(() => ({ preparation }));
+		this.setState(({ preparation }));
 	}
 
   onFocusChange = ({ focused }) => {
-    this.setState(() => ({ calendarFocused: focused }));
+    this.setState(({ calendarFocused: focused }));
   };
 
   onSubmit = e => {
@@ -91,10 +91,10 @@ export default class RecipeForm extends React.Component {
 
     if (!this.state.description || !this.state.title) {
       // set error - 'Please provide description and title'
-      this.setState(() => ({ error: "Please provide description and title." }));
+      this.setState(({ error: "Please provide description and title." }));
     } else {
       // Clear error
-      this.setState(() => ({ error: "" }));
+      this.setState(({ error: "" }));
       this.props.onSubmit({
         title: this.state.title,
 				description: this.state.description,
@@ -152,7 +152,7 @@ export default class RecipeForm extends React.Component {
   addIngredient = e => {
     e.preventDefault();
 
-    this.setState(() => ({
+    this.setState(({
       ingredients: [
         ...this.state.ingredients,
         {
@@ -173,7 +173,7 @@ export default class RecipeForm extends React.Component {
       return index != e.target.getAttribute("data-remove-id");
     });
 
-    this.setState(() => ({
+    this.setState(({
       ingredients: [...tempIngredients]
     }));
   };
