@@ -108,7 +108,6 @@ export const startEditRecipe = (id, updates) => {
       .ref(`recipes/${id}`)
       .update(updates)
       .then(() => {
-				console.log('updateing for ', id)
         dispatch(editRecipe(id, updates));
       })
       .catch(error => console.log("Error - startEditRecipe", error));

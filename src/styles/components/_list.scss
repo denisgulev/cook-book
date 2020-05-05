@@ -8,7 +8,9 @@
 
 .list-item {
   align-items: center;
-  background: $off-white;
+	background: $off-white;
+	background-position: center;
+	background-size: cover;
 	border: 1px solid darken($off-white, 7%);
 	box-shadow: 2px 2px 5px $grey;
   color: $dark-grey;
@@ -37,19 +39,9 @@
   }
 }
 
-.list-item__image {
-  position: absolute;
-  top: 0;
-	left: 0;
-}
-
-.list-item__image img {
-  width: 100%;
-  height: 100%;
-}
-
 .list-item__content {
-  align-items: center;
+	align-items: center;
+	background-color: $off-white;
   bottom: 0;
   display: flex;
   justify-content: space-between;
