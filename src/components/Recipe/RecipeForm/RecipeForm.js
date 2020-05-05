@@ -10,7 +10,7 @@ export default class RecipeForm extends React.Component {
       title: props.recipe ? props.recipe.title : "",
 			description: props.recipe ? props.recipe.description : "",
 			prepTime: props.recipe ? props.recipe.prepTime : "",
-			difficulty: props.difficulty ? props.recipe.difficulty : "",
+			difficulty: props.recipe ? props.recipe.difficulty : "",
       category: props.recipe ? props.recipe.category : "",
       createdAt: moment(),
       imageUrl: props.recipe ? props.recipe.imageUrl : "",
