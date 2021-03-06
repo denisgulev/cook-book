@@ -8,8 +8,8 @@ export const RecipesList = props => {
     let recipesList = <p>Nessuna ricetta</p>
     if (props.recipes.length !== 0) {
         recipesList = (
-            props.recipes.map(recipe => {
-                return <RecipeListItem key={recipe.id} {...recipe} />;
+            props.recipes.map((recipe, index) => {
+                return <RecipeListItem key={index} {...recipe} />;
             })
         );
     }
