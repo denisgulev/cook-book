@@ -59,8 +59,7 @@ export const startAddRecipe = (recipeData = {}) => {
         };
 
         await trackPromise(
-            db
-                .ref(`recipes`)
+            db.ref(`recipes`)
                 .push(recipe)
                 .then(ref => {
                     dispatch(
@@ -131,7 +130,6 @@ export const startSetRecipes = () => {
                     ...child.val()
                 });
             });
-
             dispatch(setRecipes(recipesFromDB));
         } else {
             console.log("Error startSetRecipes");

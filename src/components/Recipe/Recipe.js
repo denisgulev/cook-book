@@ -43,8 +43,8 @@ export class Recipe extends React.Component {
         let ingredientsShow = null;
         if (ingredients) {
             ingredientsShow = (
-                ingredients.map(({id = 0, name, qty, unit}) => (
-                    <li key={id}>
+                ingredients.map(({name, qty, unit}, index) => (
+                    <li key={index}>
                         {name} - {qty} - {unit}
                     </li>
                 ))
