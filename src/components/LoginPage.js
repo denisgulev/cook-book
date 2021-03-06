@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
-import {startLogin, startLogout} from "../actions/auth";
+import {startLogin} from "../actions/auth";
+import {Redirect} from "react-router-dom";
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -32,48 +33,39 @@ class LoginPage extends React.Component {
         // prevent default page refresh
         e.preventDefault();
         if (!this.props.isAuthenticated) this.props.startLogin(this.state.email, this.state.password);
-        else this.props.startLogout();
     };
 
     render() {
-        let accessActions = (
-            <form onSubmit={this.onSubmit} className="box-layout__box-login">
-                <button className="button">Logout</button>
-            </form>
-        );
-
-        if (!this.props.isAuthenticated) {
-            accessActions = (
-                <form onSubmit={this.onSubmit} className="box-layout__box-login">
-                    <h1 className="box-layout__title">Ricettario</h1>
-                    <label htmlFor="email">Email</label>
-                    <input
-                        id="email"
-                        type="text"
-                        value={this.state.email}
-                        className="text-input"
-                        onChange={this.onEmailChange}
-                        required
-                    />
-                    <label htmlFor="password">Password</label>
-                    <input
-                        id="password"
-                        type="password"
-                        value={this.state.password}
-                        className="text-input"
-                        onChange={this.onPasswordChange}
-                        required
-                    />
-                    <br/>
-                    <button className="button">Login</button>
-                </form>
-            );
-        }
 
         return (
             <div className="box-layout">
                 {
-                    accessActions
+                    this.props.isAuthenticated ?
+                        <Redirect to="/" />
+                        :
+                        <form onSubmit={this.onSubmit} className="box-layout__box-login">
+                            <h1 className="box-layout__title">Ricettario</h1>
+                            <label htmlFor="email">Email</label>
+                            <input
+                            id="email"
+                            type="text"
+                            value={this.state.email}
+                            className="text-input"
+                            onChange={this.onEmailChange}
+                            required
+                            />
+                            <label htmlFor="password">Password</label>
+                            <input
+                            id="password"
+                            type="password"
+                            value={this.state.password}
+                            className="text-input"
+                            onChange={this.onPasswordChange}
+                            required
+                            />
+                            <br/>
+                            <button className="button">Login</button>
+                        </form>
                 }
             </div>
         );
@@ -85,8 +77,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    startLogin: (email, password) => dispatch(startLogin(email, password)),
-    startLogout: () => dispatch(startLogout())
+    startLogin: (email, password) => dispatch(startLogin(email, password))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

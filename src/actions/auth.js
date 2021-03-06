@@ -12,7 +12,7 @@ export const startLogin = (email, password) => {
             .signInWithEmailAndPassword(email, password)
             .catch(function (error) {
                 // Handle Errors here.
-                var errorCode = error.code;
+                let errorCode = error.code;
                 switch (errorCode) {
                     case "auth/user-not-found":
                         alert("Email non riconosciuta.");
