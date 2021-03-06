@@ -24,6 +24,8 @@ export class Recipe extends React.Component {
     };
 
     render() {
+        const index = this.props.match.params.id;
+        console.log("THIS.PROPS - ", this.props)
         const {id, title, prepTime, difficulty, imageUrl, ingredients, note, preparation} = this.props.recipe;
 
         let authenticatedManagement = null;
@@ -31,7 +33,7 @@ export class Recipe extends React.Component {
             authenticatedManagement = (
                 <div className="page-header__actions">
                     <button className="button">
-                        <Link to={`/edit/${id}`}>Modifica</Link>
+                        <Link to={`/edit/${index}`}>Modifica</Link>
                     </button>
                     <button className="button button--danger" onClick={this.handleRemoveRequested}>
                         Elimina
@@ -110,10 +112,14 @@ export class Recipe extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => ({
-    recipe: state.recipes.find(recipe => recipe.id === props.match.params.id),
-    isAuthenticated: !!state.auth.uid
-});
+const mapStateToProps = (state, props) => {
+    console.log("Redux recipes - ",state.recipes)
+    return {
+        recipe: state.recipes[props.match.params.id],
+        isAuthenticated: !!state.auth.uid
+    };
+}
+
 
 const mapDispatchToProps = (dispatch, props) => ({
     startRemoveRecipe: data => dispatch(startRemoveRecipe(data))

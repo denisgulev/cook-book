@@ -9,7 +9,7 @@ export const RecipesList = props => {
     if (props.recipes.length !== 0) {
         recipesList = (
             props.recipes.map((recipe, index) => {
-                return <RecipeListItem key={index} {...recipe} />;
+                return <RecipeListItem key={index} {...recipe} index={index} />;
             })
         );
     }

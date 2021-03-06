@@ -17,8 +17,8 @@ const getVisibleRecipes = (recipes, {text, sortBy, category}) => {
             } else {
                 return false;
             }
-        })
-        .sort((a, b) => (a.title < b.title ? -1 : 1));
+        });
+        //.sort((a, b) => (a.title < b.title ? -1 : 1));
 };
 
 export default getVisibleRecipes;

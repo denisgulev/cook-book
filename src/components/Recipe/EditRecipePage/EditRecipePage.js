@@ -26,7 +26,7 @@ export class EditRecipePage extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-    recipe: state.recipes.find(recipe => recipe.id === props.match.params.id)
+    recipe: state.recipes.find((recipe, index) => index === props.match.params.id)
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
