@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-const RecipeListItem = ({id, title, description, imageUrl, index}) => (
+const RecipeListItem = ({title, description, imageUrl, index}) => (
     <Link to={`/recipe/${index}`}>
         <div className="list-item" style={{backgroundImage: `url(${imageUrl})`}}>
             <div className="list-item__content">

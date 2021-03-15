@@ -21,9 +21,9 @@ const RecipesSummary = ({visibleRecipesCount, totalRecipesCount, isAuthenticated
         <div className="page-header">
             <div className="content-container page-header__content">
                 <div className="page-header__info">
-                    <h1 className="page-header__title">
+                    <h2 className="page-header__title">
                         Viewing <span>{visibleRecipesCount}</span>/<span>{totalRecipesCount}</span> {recipeWord}.
-                    </h1>
+                    </h2>
                 </div>
                 {
                     authenticatedOps

@@ -1,12 +1,12 @@
 // get visibleRecipes - 2nd argument is "filterReducerState"
-const getVisibleRecipes = (recipes, {text, sortBy, category}) => {
+const getVisibleRecipes = (recipes, {text, category}) => {
     return recipes
         .filter(recipe => {
             const textMatch = recipe.title.toLowerCase().includes(text.toLowerCase());
             if (recipe.category !== undefined) {
                 if (category.toLowerCase() === 'tutte') {
                     // show all recipes
-                    return true && textMatch;
+                    return textMatch;
                 } else {
                     // show recipe with category = searched category
                     const categoryMatch =

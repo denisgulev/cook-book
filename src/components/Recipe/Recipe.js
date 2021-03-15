@@ -4,6 +4,8 @@ import {Link} from "react-router-dom";
 import ConfirmationModal from "../modals/ConfirmationModal";
 import {startRemoveRecipe} from "../../actions/recipes";
 
+import Slideshow from "./Slideshow/Slideshow";
+
 export class Recipe extends React.Component {
     state = {
         isRemoveRequested: undefined
@@ -25,8 +27,12 @@ export class Recipe extends React.Component {
 
     render() {
         const index = this.props.match.params.id;
-        console.log("THIS.PROPS - ", this.props)
-        const {id, title, prepTime, difficulty, imageUrl, ingredients, note, preparation} = this.props.recipe;
+        //console.log("THIS.PROPS - ", this.props)
+        const {title, prepTime, difficulty, imageUrl, ingredients, note, preparation} = this.props.recipe;
+
+        let imagesForSlideshow = this.props.recipe.imageUrl.map(({ url }) => ({"url": url}));
+
+        console.log('slideshow - ', imagesForSlideshow)
 
         let authenticatedManagement = null;
         if (this.props.isAuthenticated) {
@@ -77,7 +83,8 @@ export class Recipe extends React.Component {
                             </div>
                         </div>
                         <div className="recipe__image">
-                            <img src={imageUrl} alt="Recipe image"/>
+                            { /*<img src={imageUrl} alt="Recipe image"/> */ }
+                            <Slideshow imgs={imagesForSlideshow} />
                         </div>
                         <div className="recipe__ingredients">
                             <div>
@@ -113,7 +120,7 @@ export class Recipe extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-    console.log("Redux recipes - ",state.recipes)
+    //console.log("Redux recipes - ",state.recipes)
     return {
         recipe: state.recipes[props.match.params.id],
         isAuthenticated: !!state.auth.uid
@@ -121,7 +128,7 @@ const mapStateToProps = (state, props) => {
 }
 
 
-const mapDispatchToProps = (dispatch, props) => ({
+const mapDispatchToProps = (dispatch) => ({
     startRemoveRecipe: data => dispatch(startRemoveRecipe(data))
 });
 

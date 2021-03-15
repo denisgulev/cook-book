@@ -26,10 +26,10 @@ export class EditRecipePage extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
-    recipe: state.recipes.find((recipe, index) => index === props.match.params.id)
+    recipe: state.recipes[props.match.params.id]
 });
 
-const mapDispatchToProps = (dispatch, props) => ({
+const mapDispatchToProps = dispatch => ({
     startEditRecipe: (id, recipe) => dispatch(startEditRecipe(id, recipe))
 });
 

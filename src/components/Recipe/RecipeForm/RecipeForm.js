@@ -13,8 +13,7 @@ export default class RecipeForm extends React.Component {
             difficulty: props.recipe ? props.recipe.difficulty : "",
             category: props.recipe ? props.recipe.category : "",
             createdAt: moment(),
-            imageUrl: props.recipe ? props.recipe.imageUrl : "",
-            imageName: "",
+            imageUrl: props.recipe ? props.recipe.imageUrl : [{url: "", name: ""}],
             urlLocal: "",
             progress: 0,
             note: props.recipe ? props.recipe.note : "",
@@ -57,9 +56,12 @@ export default class RecipeForm extends React.Component {
 
     onImageChange = e => {
         //console.log('onImageChange', e.target.files[0]);
+        const image = {
+            "url": e.target.files[0],
+            "name": e.target.files[0].name
+        }
         this.setState({
-            imageUrl: e.target.files[0],
-            imageName: e.target.files[0].name,
+            imageUrl: [...this.state.imageUrl, image],
             progress: 0
         });
 
@@ -67,14 +69,32 @@ export default class RecipeForm extends React.Component {
 
         if (file) {
             // image preview
-            var reader = new FileReader();
+            let reader = new FileReader();
 
             reader.onload = function (e) {
-                document.querySelector("img").src = e.target.result;
+                document.getElementById("image-preview").src = e.target.result;
             };
             reader.readAsDataURL(file);
         }
     };
+
+    onImageDelete = imageToDelete => {
+        console.log("delete event - ", imageToDelete)
+        let deleteRef = storageRef.child(`image/${this.state.title}/${imageToDelete}`);
+
+        //console.log("deleteRef - ", deleteRef)
+
+        // Delete the file
+        deleteRef.delete().then(() => {
+            // File deleted successfully
+            let newImageUrls = this.state.imageUrl.filter(({ name }) => name !== imageToDelete)
+            console.log("imageURLS after delete - ", newImageUrls)
+
+            //this.state.imageUrl = newImageUrls
+        }).catch((error) => {
+            // Uh-oh, an error occurred!
+        });
+    }
 
     onPreparationChange = e => {
         const preparation = e.target.value;
@@ -88,6 +108,11 @@ export default class RecipeForm extends React.Component {
     onSubmit = e => {
         // prevent default page refresh
         e.preventDefault();
+
+        // clean imageUrls array
+        const cleanedImageUrls = this.state.imageUrl.filter(({ name, url }) => {
+            return name !== "" && !(url instanceof File)
+        })
 
         if (!this.state.description || !this.state.title) {
             // set error - 'Please provide description and title'
@@ -104,7 +129,7 @@ export default class RecipeForm extends React.Component {
                 createdAt: this.state.createdAt.valueOf(),
                 note: this.state.note,
                 preparation: this.state.preparation,
-                imageUrl: this.state.imageUrl,
+                imageUrl: [...cleanedImageUrls],
                 ingredients: this.state.ingredients
             });
         }
@@ -112,19 +137,24 @@ export default class RecipeForm extends React.Component {
 
     handleUpload = e => {
         e.preventDefault();
-        //console.log('started uploading', this.state.imageUrl, this.props.recipe);
 
         const metadata = {
             contentType: "image/jpeg"
         };
 
         let uploadTask;
+        let toUploadImageName;
+        this.state.imageUrl.forEach(image => {
+            toUploadImageName = image.name;
 
-        if (this.state.title) {
-            uploadTask = storageRef.child(`image/${this.state.title}/${this.state.imageName}`).put(this.state.imageUrl, metadata);
-        } else {
-            uploadTask = storageRef.child(`image/temp/${this.state.imageName}`).put(this.state.imageUrl, metadata);
-        }
+            if (image.url instanceof File) {
+                if (this.state.title) {
+                    uploadTask = storageRef.child(`image/${this.state.title}/${image.name}`).put(image.url, metadata);
+                } else {
+                    uploadTask = storageRef.child(`image/temp/${image.name}`).put(image.url, metadata);
+                }
+            }
+        });
 
         uploadTask.on(
             "state_changed",
@@ -141,9 +171,12 @@ export default class RecipeForm extends React.Component {
             () => {
                 // Upload completed successfully, now we can get the download URL
                 uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-                    //console.log('File available at', downloadURL);
-                    this.state.imageUrl = downloadURL;
-                    //console.log(this.state.imageUrl);
+                    const image = {
+                        "url": downloadURL,
+                        "name": toUploadImageName || ""
+                    }
+                    this.state.imageUrl = [...this.state.imageUrl, image];
+                    //console.log("ImageUrls after upload - ", this.state.imageUrl);
                 });
             }
         );
@@ -313,7 +346,20 @@ export default class RecipeForm extends React.Component {
                 ></textarea>
                 <label htmlFor="image">Immagine</label>
                 <input id="image" type="file" onChange={this.onImageChange}/>
-                {this.state.imageUrl ? <img src={this.state.imageUrl} alt="Uploaded Image" id="imageToUpload"/> : ""}
+                <img src="" id="image-preview" />
+                {
+                    this.state.imageUrl ?
+                        this.state.imageUrl.map(({ url, name }, index) =>  {
+                            if (!(url instanceof File))
+                                return (
+                                    <div key={index}>
+                                        <img src={url} alt="Uploaded Image" />
+                                        <button onClick={() => this.onImageDelete(name)}>X</button>
+                                    </div>
+                                )
+                        })
+                    : ""
+                }
                 <button
                     className={progress !== 100 ? "button" : "green"}
                     onClick={this.handleUpload}

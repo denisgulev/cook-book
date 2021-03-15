@@ -4,7 +4,7 @@ import "firebase/database";
 import * as actions from "./actionTypes";
 import {trackPromise} from "react-promise-tracker";
 
-/* WHITOUT DB */
+/* WITHOUT DB */
 /**
  * component calls action generator
  * action generator returns object
@@ -40,7 +40,7 @@ export const startAddRecipe = (recipeData = {}) => {
             preparation = "",
             createdAt = 1000,
             createdBy = uid,
-            imageUrl = "",
+            imageUrl = [],
             ingredients = []
         } = recipeData;
 
@@ -81,7 +81,7 @@ export const removeRecipe = ({id} = {}) => ({
 });
 
 export const startRemoveRecipe = ({id} = {}) => {
-    return async (dispatch, getState) => {
+    return async dispatch => {
         // read data once
         await trackPromise(
             db.ref(`recipes/${id}`)
@@ -101,7 +101,7 @@ export const editRecipe = (id, updates) => ({
 });
 
 export const startEditRecipe = (id, updates) => {
-    return async (dispatch, getState) => {
+    return async dispatch => {
         await db.ref(`recipes/${id}`)
             .update(updates)
             .then(() => {
@@ -120,7 +120,7 @@ export const setRecipes = recipes => ({
 // async func that will eventually dispatch 'setRecipes'
 export const startSetRecipes = () => {
     const recipesFromDB = [];
-    return async (dispatch, getState) => {
+    return async dispatch => {
         const snapshot = await trackPromise(db.ref(`recipes`).once("value"));
 
         if (snapshot) {
