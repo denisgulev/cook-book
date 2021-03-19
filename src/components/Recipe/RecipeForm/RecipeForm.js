@@ -81,7 +81,7 @@ export default class RecipeForm extends React.Component {
     onImageDelete = (event, imageToDelete) => {
         event.preventDefault();
 
-        console.log("delete event - ", imageToDelete)
+        //console.log("delete event - ", imageToDelete)
         let deleteRef = storageRef.child(`image/${this.state.title}/${imageToDelete}`);
 
         //console.log("deleteRef - ", deleteRef)
@@ -90,7 +90,7 @@ export default class RecipeForm extends React.Component {
         deleteRef.delete().then(() => {
             // File deleted successfully -> remove deleted images from state
             let newImageUrls = this.state.imageUrl.filter(({ name }) => name !== imageToDelete)
-            console.log("imageURLS after delete - ", newImageUrls)
+            //console.log("imageURLS after delete - ", newImageUrls)
 
             // update state so the preview is removed as well
             this.setState({
@@ -161,7 +161,7 @@ export default class RecipeForm extends React.Component {
             "state_changed",
             snapshot => {
                 let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log("Progress " + progress + "%");
+                //console.log("Progress " + progress + "%");
                 this.setState({
                     progress
                 });

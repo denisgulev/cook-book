@@ -35,8 +35,8 @@ export const startLogin = (email, password) => {
                 // Handle Errors here.
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                console.log('errorCode - ', errorCode)
-                console.log('errorMessage - ', errorMessage)
+                //console.log('errorCode - ', errorCode)
+                //console.log('errorMessage - ', errorMessage)
             })
     };
 };

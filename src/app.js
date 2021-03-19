@@ -5,16 +5,20 @@ import {startSetRecipes} from "./actions/recipes";
 import {login, logout} from "./actions/auth";
 import AppRouter from "./routers/AppRouter";
 import configureStore from "./store/configureStore";
+import { PersistGate } from "redux-persist/integration/react";
 import "normalize.css/normalize.css";
 import "./styles/styles.scss";
 import {firebase} from "./firebase/firebase";
 
-const store = configureStore();
+const store = configureStore().store;
+const persistor = configureStore().persistor;
 
 // All of the components can use the store.
 const jsx = (
     <Provider store={store}>
-        <AppRouter/>
+        <PersistGate loading={null} persistor={persistor}>
+            <AppRouter/>
+        </PersistGate>
     </Provider>
 );
 

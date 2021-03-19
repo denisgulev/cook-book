@@ -32,7 +32,7 @@ export class Recipe extends React.Component {
 
         let imagesForSlideshow = this.props.recipe.imageUrl.map(({ url }) => ({"url": url}));
 
-        console.log('slideshow - ', imagesForSlideshow)
+        //console.log('slideshow - ', imagesForSlideshow)
 
         let authenticatedManagement = null;
         if (this.props.isAuthenticated) {

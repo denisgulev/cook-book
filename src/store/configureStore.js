@@ -1,19 +1,32 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
+import { persistStore, persistReducer} from "redux-persist";
+import storage from 'redux-persist/lib/storage';
+
 import recipesReducer from '../reducers/recipes';
 import filtersReducer from '../reducers/filters';
 import authReducer from '../reducers/auth';
 
+const persistConfig = {
+    key: 'root',
+    storage
+}
+
+const persistedReducer = persistReducer(persistConfig, combineReducers({
+    recipes: recipesReducer,
+    filters: filtersReducer,
+    auth: authReducer
+}))
+
 export default () => {
-    return createStore(
-        combineReducers({
-            recipes: recipesReducer,
-            filters: filtersReducer,
-            auth: authReducer
-        }),
+    let store =  createStore(
+        persistedReducer,
         composeWithDevTools(applyMiddleware(thunk))
     );
+    let persistor = persistStore(store);
+
+    return { store, persistor };
 };
 
 // STORE CREATION
