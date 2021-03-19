@@ -78,7 +78,9 @@ export default class RecipeForm extends React.Component {
         }
     };
 
-    onImageDelete = imageToDelete => {
+    onImageDelete = (event, imageToDelete) => {
+        event.preventDefault();
+
         console.log("delete event - ", imageToDelete)
         let deleteRef = storageRef.child(`image/${this.state.title}/${imageToDelete}`);
 
@@ -86,12 +88,15 @@ export default class RecipeForm extends React.Component {
 
         // Delete the file
         deleteRef.delete().then(() => {
-            // File deleted successfully
+            // File deleted successfully -> remove deleted images from state
             let newImageUrls = this.state.imageUrl.filter(({ name }) => name !== imageToDelete)
             console.log("imageURLS after delete - ", newImageUrls)
 
-            //this.state.imageUrl = newImageUrls
-        }).catch((error) => {
+            // update state so the preview is removed as well
+            this.setState({
+                imageUrl: [...newImageUrls]
+            })
+        }).catch(() => {
             // Uh-oh, an error occurred!
         });
     }
@@ -100,10 +105,6 @@ export default class RecipeForm extends React.Component {
         const preparation = e.target.value;
         this.setState(({preparation}));
     }
-
-    onFocusChange = ({focused}) => {
-        this.setState(({calendarFocused: focused}));
-    };
 
     onSubmit = e => {
         // prevent default page refresh
@@ -165,7 +166,7 @@ export default class RecipeForm extends React.Component {
                     progress
                 });
             },
-            error => {
+            () => {
                 // NOOP
             },
             () => {
@@ -343,10 +344,10 @@ export default class RecipeForm extends React.Component {
                     className="textarea"
                     value={this.state.note}
                     onChange={this.onNoteChange}
-                ></textarea>
+                />
                 <label htmlFor="image">Immagine</label>
                 <input id="image" type="file" onChange={this.onImageChange}/>
-                <img src="" id="image-preview" />
+                <img src="" id="image-preview" alt="image_preview" />
                 {
                     this.state.imageUrl ?
                         this.state.imageUrl.map(({ url, name }, index) =>  {
@@ -354,7 +355,7 @@ export default class RecipeForm extends React.Component {
                                 return (
                                     <div key={index}>
                                         <img src={url} alt="Uploaded Image" />
-                                        <button onClick={() => this.onImageDelete(name)}>X</button>
+                                        <button onClick={(event) => this.onImageDelete(event, name)}>X</button>
                                     </div>
                                 )
                         })
@@ -374,7 +375,7 @@ export default class RecipeForm extends React.Component {
                     className="textarea"
                     value={preparation}
                     onChange={this.onPreparationChange}
-                ></textarea>
+                />
                 <fieldset>
                     <legend>Ingredienti</legend>
                     <button onClick={this.addIngredient}>Aggiungi nuovo</button>
