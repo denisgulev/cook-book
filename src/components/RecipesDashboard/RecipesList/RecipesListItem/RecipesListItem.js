@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 const RecipeListItem = ({title, description, imageUrl, index}) => (
     <Link to={`/recipe/${index}`}>
-        <div className="list-item" style={{backgroundImage: `url(${imageUrl})`}}>
+        <div className="list-item" style={{backgroundImage: `url(${imageUrl[0] ? imageUrl[0].url : ''})`}}>
             <div className="list-item__content">
                 <div className="list-item__heading">
                     <span className="list-item__title">{title}</span>
